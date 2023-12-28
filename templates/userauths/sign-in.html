@@ -1,0 +1,68 @@
+{% extends "partials/auth.html" %}
+{% load static %}
+{% block title %}VanguardFx - Login{% endblock title %}
+<meta name="description" content="VanguardFx - Login">
+{% block header %}Welcome back to VangardFX{% endblock header %}
+{% block content %}
+        <!-- Login Form
+      ========================= -->
+        <div class="col-md-6 col-lg-5 d-flex flex-column align-items-center">
+          <div class="container pt-4">
+            <div class="row g-0">
+              <div class="col-11 col-md-10 col-lg-9 mx-auto">
+                <div class="logo"> <a class="fw-600 text-6 text-dark link-underline link-underline-opacity-0"
+                    href="/" title="Vangardfx">Vangardfx</a> </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="container my-auto py-5">
+            <div class="row g-0">
+              <div class="col-11 col-md-10 col-lg-9 mx-auto">
+                <h3 class="text-12 mb-4">Sign In</h3>
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{message.tags}}">
+                        <strong>{{ message }}</strong>
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+            <script>
+                setTimeout (() => {
+                    $(".alert").alert("close");
+                }, 4000)
+            </script>
+                <form id="loginForm" method="POST">
+                  {% csrf_token %}
+                  <label class="form-label fw-500" for="emailAddress">Email Address</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    <input type="email" name="email" class="form-control bg-light border-light" id="emailAddress" required=""
+                      placeholder="Email">
+                    <span class="icon-inside text-muted"><i class="fa fa-envelope"></i></span>
+                  </div>
+                  <label class="form-label fw-500" for="loginPassword">Password</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    <input type="password" name="password" class="form-control form-control-lg bg-light border-light" id="loginPassword"
+                      required="" placeholder="Password">
+                    <span class="icon-inside text-muted"><i class="fa fa-lock"></i></span>
+                  </div>
+                  <div class="row my-4">
+                    <div class="col">
+                      <div class="form-check">
+                        <input id="remember-me" name="remember" class="form-check-input" type="checkbox">
+                        <label class="form-check-label" for="remember-me">Remember Me</label>
+                      </div>
+                    </div>
+                    <div class="col text-end"><a style="color: #fabb04;" href="">Forgot Password ?</a></div>
+                  </div>
+                  <div class="d-grid my-4">
+                    <button class="btn btn-dark btn-lg" type="submit">Sign In</button>
+                  </div>
+                  <p class="text-2 text-muted text-center" >Don't have an account? <a style="color: #fabb04;" href="{% url "userauths:sign-up" %}">Sign Up now</a></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+{% endblock content %}

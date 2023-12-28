@@ -1,0 +1,67 @@
+{% extends "partials/auth.html" %}
+{% load static %}
+{% block title %}VanguardFx - Create account{% endblock title %}
+<meta name="description" content="VanguardFx - Create Account">
+{% block header %}Welcome to VangardFX{% endblock header %}
+{% block content %}
+        <!-- Login Form
+      ========================= -->
+        <div class="col-md-6 col-lg-5 d-flex flex-column align-items-center">
+          <div class="container pt-4">
+            <div class="row g-0">
+              <div class="col-11 col-md-10 col-lg-9 mx-auto">
+                <div class="logo"> <a class="fw-600 text-6 text-dark link-underline link-underline-opacity-0"
+                    href="/" title="Vangardfx">Vangardfx</a> </div>
+              </div>
+            </div>
+          </div>
+
+      
+          <div class="container my-auto py-5">
+            <div class="row g-0">
+              <div class="col-11 col-md-10 col-lg-9 mx-auto">
+                <h4 class="text-12 mb-4">Create Account</h4>
+                <form id="registerForm" method="POST">
+                  {% csrf_token %}
+                  <label class="form-label fw-500" for="username">Username</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    {{form.username}}
+                    <span class="icon-inside text-muted"><i class="fa fa-user"></i></span>
+                  </div>
+                  <label class="form-label fw-500" for="emailAddress">Email Address</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    {{form.email}}
+                    <span class="icon-inside text-muted"><i class="fa fa-envelope"></i></span>
+                  </div>
+                  <label class="form-label fw-500" for="emailAddress">Country</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    {{form.address}}
+                    <span class="icon-inside text-muted"><i class="fa fa-flag"></i></span>
+                  </div>
+                  <label class="form-label fw-500" for="loginPassword">Password</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    {{form.password1}}
+                    <span class="icon-inside text-muted"><i class="fa fa-lock"></i></span>
+                  </div>
+                  <label class="form-label fw-500" for="loginPassword">Confirm Password</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    {{form.password2}}
+                    <span class="icon-inside text-muted"><i class="fa fa-lock"></i></span>
+                  </div>
+                  <label class="form-label fw-500" for="loginPassword">Referral Code</label>
+                  <div class="mb-3 icon-group icon-group-end">
+                    {{form.referred}}
+                    <span class="icon-inside text-muted"><i class="fa fa-retweet"></i></span>
+                  </div>
+                  <div class="d-grid my-4">
+                    <button class="btn btn-dark btn-lg" type="submit">Sign In</button>
+                  </div>
+                  <p class="text-2 text-muted text-center">Have an account? <a style="color: #fabb04;" href="{% url "userauths:sign-in" %}">Sign In</a></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Login Form End -->
+=
+{% endblock content %}
