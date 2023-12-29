@@ -1,5 +1,6 @@
 {% extends "partials/base.html" %}
 {% load static %}
+{% block title %}VangardFX - Empower Your Wealth{% endblock title %}
 {% block content %}
 <body
     class="page-template page-template-elementor_header_footer page page-id-376 no-sidebar elementor-default elementor-template-full-width elementor-kit-7 elementor-page elementor-page-376">
@@ -108,18 +109,18 @@
                                                          
                                                             <li
                                                                 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16144  ">
-                                                                <a href="https://mthemeus.com/demos/wp/zuzu/about-us/">About
+                                                                <a href="{% url "core:about" %}">About
                                                                     Us</a></li>
                                                      
                                                             <li
                                                                 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16060  ">
                                                                 <a
-                                                                    href="https://mthemeus.com/demos/wp/zuzu/contact-01/">Contact Us</a>
+                                                                    href="{% url "core:contact" %}">Contact Us</a>
                                                             </li>
                                                             <li
                                                                 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16060  ">
                                                                 <a
-                                                                    href="https://mthemeus.com/demos/wp/zuzu/contact-01/">FAQ</a>
+                                                                    href="{% url "core:faq" %}">FAQ</a>
                                                             </li>
                                                             <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16060"> <span id="google_translate_element" class="google_t"></span></li>
                                                         </ul>
@@ -317,6 +318,10 @@
                                                 .bg-hover:hover::before{
                                                     background: #d5a105 !important;
                                                 }
+                                                .tradingview-widget-copyright{
+                                                    display: none !important;
+                                                    
+                                                }
                                             </style>
                                             <div class="elementor-element elementor-element-a5a4669 elementor-widget__width-auto mas-addons-sticky-no elementor-widget elementor-widget-zuzu_button"
                                                 data-id="a5a4669" data-element_type="widget"
@@ -370,19 +375,55 @@
                 </div>
                 
             </section>
-            <div style="background: #000;"
-            style="height:62px;  overflow:hidden; box-sizing: border-box; border-radius: 4px; text-align: right; line-height:14px; block-size:62px; font-size: 12px; font-feature-settings: normal; text-size-adjust: 100%;padding: 0px; margin: 0px; width: 100%;">
-            <div style="height:40px; padding:0px; margin:0px; width: 100%;"><iframe
-                    src="https://widget.coinlib.io/widget?type=horizontal_v2&theme=dark&pref_coin_id=1505&invert_hover=no"
-                    width="100%" height="36px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0" border="0"
-                    style="border:0;margin:0;padding:0;"></iframe></div>
-            <div
-                style="color: #626B7F; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; display:none; font-family: Verdana, Tahoma, Arial, sans-serif;">
-                <a href="https://coinlib.io" target="_blank"
-                    style="font-weight: 500; color: #626B7F; text-decoration:none; font-size:11px; display:none;">Cryptocurrency
-                    Prices</a>&nbsp;by Coinlib
-            </div>
-        </div>
+<!-- TradingView Widget BEGIN -->
+<div class="tradingview-widget-container" style="background: #000;">
+    <div class="tradingview-widget-container__widget" ></div>
+    <div class="tradingview-widget-copyright" ><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+    "symbols": [
+      {
+        "proName": "FOREXCOM:SPXUSD",
+        "title": "S&P 500"
+      },
+      {
+        "proName": "FOREXCOM:NSXUSD",
+        "title": "US 100"
+      },
+      {
+        "proName": "FX_IDC:EURUSD",
+        "title": "EUR to USD"
+      },
+      {
+        "proName": "BITSTAMP:BTCUSD",
+        "title": "Bitcoin"
+      },
+      {
+        "proName": "BITSTAMP:ETHUSD",
+        "title": "Ethereum"
+      },
+      {
+        "description": "Ethereum",
+        "proName": "BITSTAMP:ETHUSD"
+      },
+      {
+        "description": "Apple",
+        "proName": "NASDAQ:AAPL"
+      },
+      {
+        "description": "Gold",
+        "proName": "CAPITALCOM:GOLD"
+      }
+    ],
+    "showSymbolLogo": true,
+    "isTransparent": false,
+    "displayMode": "regular",
+    "colorTheme": "dark",
+    "locale": "en"
+  }
+    </script>
+  </div>
+  <!-- TradingView Widget END -->
             <section
                 class="elementor-section elementor-top-section elementor-element elementor-element-19f27f0 elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
                 data-id="19f27f0" data-element_type="section"

@@ -12,6 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Vangardfx - Invest in forex and defi with ease" name="description" />
     <meta content="Vangardfx" name="author" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- App favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static "apple-touch-icon.png" %}">
 	<link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon-32x32.png" %}">
@@ -39,7 +41,44 @@ rel="stylesheet"
     <link href="{% static 'asset/css/app.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{% static 'asset/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
-
+    <script defer>
+        function generateRandomPhoneNumber() {
+            const digits = Math.floor(Math.random() * 10000000000).toString().padStart(10, '0');
+            return `${digits.substring(3, 6)}`;
+        }
+    
+        function generateRandomValue() {
+            return Math.floor(Math.random() * (50000 - 100 + 1)) + 100;
+        }
+    
+        function getRandomToastMessage() {
+            const templates = [
+                `User ${generateRandomPhoneNumber()} invested $${generateRandomValue()}`,
+                `User ${generateRandomPhoneNumber()} deposited $${generateRandomValue()}`,
+                `User ${generateRandomPhoneNumber()} withdrew $${generateRandomValue()}`,
+                `User ${generateRandomPhoneNumber()} upgraded plan`,
+                // Add more templates as needed
+            ];
+    
+            const randomIndex = Math.floor(Math.random() * templates.length);
+            return templates[randomIndex];
+        }
+    
+        function displayRandomToast() {
+            const toastMessage = getRandomToastMessage();
+    
+            Toastify({
+                text: toastMessage,
+                duration: 5000,
+                close: true,
+                className: "info-toast",
+                position: "center",
+                gravity: 'top',
+            }).showToast();
+        }
+    
+        setInterval(displayRandomToast, 20000);
+    </script>
 </head>
 <body>
 
@@ -1564,6 +1603,7 @@ rel="stylesheet"
             );
         }
     </script>
+
 </body>
 
 
