@@ -17,7 +17,7 @@ PROBLEMS = (
 class ContactForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Your Name","class": "form-control","id":"sppb-form-builder-field-1"}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={"placeholder": "Your Account Email", "class": "form-control ","id":"sppb-form-builder-field-2"}))
-    question = forms.ChoiceField(choices=PROBLEMS, widget=forms.Select(attrs={"placeholder": "This question is about..", "class": "form-control","id":"sppb-form-builder-field-0"}))
+    question = forms.ChoiceField(choices=PROBLEMS, widget=forms.Select(attrs={"placeholder": "This question is about..", "class": "form-control style","id":"sppb-form-builder-field-0"}))
     question_details = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control',"id":"sppb-form-builder-field-3"}))
     
     class Meta:

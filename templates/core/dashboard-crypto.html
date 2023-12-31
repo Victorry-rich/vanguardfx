@@ -101,7 +101,7 @@
                 <li class="nav-item">
                     <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-account-circle-line"></i>
-                        <span data-key="t-pages">Profile</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">My Account</span>
                     </a>
                   
                 </li>
@@ -109,70 +109,70 @@
                 <li class="nav-item">
                     <a href="{% url "core:deposit" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-bank-fill"></i>
-                        <span data-key="t-pages">Deposit</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Deposit</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
                     <a href="{% url "core:withdraw" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-arrow-left-down-line"></i>
-                        <span data-key="t-pages">Withdraw</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Withdraw</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
                     <a href="{% url "core:deposits" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-exchange-fill"></i>
-                        <span data-key="t-pages">Deposits</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Deposits</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
                     <a href="{% url "core:withdrawals" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-money-dollar-circle-line"></i>
-                        <span data-key="t-pages">Withdrawals</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Withdrawals</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
                     <a href="{% url "core:plans" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-line-chart-fill"></i>
-                        <span data-key="t-pages">Investment Plans</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Investment Plans</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
                     <a href="{% url "core:transactions" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-history-fill"></i>
-                        <span data-key="t-pages">Transaction History</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Transaction History</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
-                    <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                    <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-settings-3-fill"></i>
-                        <span data-key="t-pages">Settings</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Settings</span>
+                    </a>
+                  
+                </li>
+                <li class="nav-item">
+                    <a href="{% url "core:referrals" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                        <i class="ri-login-circle-fill"></i>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Referrals</span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
                     <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-user-fill"></i>
-                        <span data-key="t-pages">Personal Details</span>
+                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Personal Details</span>
                     </a>
                   
                 </li>
 
-                <li class="nav-item">
-                    <a href="{% url "userauths:lockscreen"%}" class="nav-link menu-link" aria-controls="sidebarPages" >
-                        <i class="ri-lock-fill"></i>
-                        <span data-key="t-pages">Lock Screen</span>
-                    </a>
-
-                </li>
 
                 <a class="nav-link menu-link" href="#" onclick="history.back()" aria-controls="sidebarPages">
-                    <i class="las la-arrow-left"></i> <span data-key="t-pages">Back</span>
+                    <i class="las la-arrow-left"></i> <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Back</span>
                 </a>
                 
                
@@ -354,9 +354,29 @@
                                                             <td class="btckey">
                                                                 <a href="{% url "core:deposit" %}"><button
                                                                         type="submit" 
-                                                                        class="btn btn-primary">Deposit</button></a>
+                                                                        class="btn btn-pri" style="background: #d4a003; border: 1px solid #d4a003;">Deposit</button></a>
                                                             </td>
-                                        
+                                                            <style>
+                                                                .btn-pri {
+                                                                    width: 125px;
+                                                                    height: 40px;
+                                                                    border: 3px solid #d4a003;
+                                                                    border-radius: 45px;
+                                                                    transition: all 0.3s;
+                                                                    cursor: pointer;
+                                                                    color: #fff;
+                                                                    background: #d4a003;
+                                                                    font-size: 1.0em;
+                                                                    font-weight: 550;
+                                                                    font-family: 'Poppins', sans-serif;
+                                                                  }
+                                                                  
+                                                                  .btn-pri:hover {
+                                                                    background: #fabb04;
+                                                                    color: white;
+                                                                    font-size: 1.2em;
+                                                                  }
+                                                            </style>
                                                             {% if user.total_deposit >= 100 %}
                                                             <td class="status"><span
                                                                     class="badge bg-success-subtle text-success">Active</span>
@@ -629,8 +649,13 @@
 
                         </div><!-- end card-header -->
 
-                        <div class="cryptohopper-web-widget" data-id="5" data-news_count="4" data-news_length="20">
-                        </div>
+                        <style>
+                            .CryptoPanicWidget-header{
+                                display: none;
+                            }
+                        </style>
+                        <a href="https://cryptopanic.com/" target="_blank" data-news_feed="recent" data-bg_color="#FFFFFF" data-text_color="#333333" data-header_bg_color="#30343B" data-header_text_color="#FFFFFF" data-link_color="#405189" data-currencies="BTC,ETH,XRP,USDT,USDC" data-posts_limit="8" class="CryptoPanicWidget">Latest News</a>
+<script src="https://static.cryptopanic.com/static/js/widgets.min.js"></script>
                     </div><!-- end card -->
                 </div><!-- end col -->
             </div><!-- end row -->
@@ -639,5 +664,13 @@
         <!-- container-fluid -->
     </div>
     <!-- End Page-content -->
-
-    {% endblock content %}
+    <script>
+        (function(b,i,t,C,O,I,N) {
+          window.addEventListener('load',function() {
+            if(b.getElementById(C))return;
+            I=b.createElement(i),N=b.getElementsByTagName(i)[0];
+            I.src=t;I.id=C;N.parentNode.insertBefore(I, N);
+          },false)
+        })(document,'script','https://widgets.bitcoin.com/widget.js','btcwdgt');
+      </script>
+{% endblock content %}

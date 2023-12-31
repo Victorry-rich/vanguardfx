@@ -606,7 +606,16 @@
         }
     
         function generateRandomValue() {
-            return Math.floor(Math.random() * (50000 - 100 + 1)) + 100;
+            // Generate a random value between 0 and 1
+            const randomFraction = Math.random();
+        
+            // Use the fraction to spread the values across the range
+            const spread = 15000 - 100;
+            const randomValue = Math.floor(randomFraction * spread) + 100;
+        
+            const formattedValue = randomValue.toLocaleString();
+
+            return formattedValue;
         }
     
         function getRandomToastMessage() {
@@ -740,8 +749,8 @@
 												<div class="mas-list-group">
 													<ul class="mas-list-group-wrapper layout_1">
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="{% url "core:plans" %}"
+																 >
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
@@ -749,8 +758,8 @@
 															</a>
 														</li>
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="#"
+																>
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
@@ -759,23 +768,15 @@
 														</li>
 														
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="#learn"
+																>
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
 																	Learn </span>
 															</a>
 														</li>
-														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
-																<span class="mas-list-group-icon no">
-																</span>
-																<span class="mas-list-group-text">
-																	Snacks </span>
-															</a>
-														</li>
+														
 													</ul>
 												</div>
 											</div>
@@ -802,8 +803,8 @@
 												<div class="mas-list-group">
 													<ul class="mas-list-group-wrapper layout_1">
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="/"
+																>
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
@@ -811,8 +812,8 @@
 															</a>
 														</li>
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="{% url "core:about" %}"
+																>
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
@@ -820,21 +821,21 @@
 															</a>
 														</li>
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="{% url "core:contact" %}"
+																>
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
-																	Careers </span>
+																	Contact Us </span>
 															</a>
 														</li>
 														<li class="mas-list-group-item mas-icon-left">
-															<a href="https://mthemeus.com/demos/wp/zuzu/contact/"
-																target="_blank" rel="nofollow">
+															<a href="{% url "core:faq" %}"
+																>
 																<span class="mas-list-group-icon no">
 																</span>
 																<span class="mas-list-group-text">
-																	Blog </span>
+																	FAQ </span>
 															</a>
 														</li>
 														

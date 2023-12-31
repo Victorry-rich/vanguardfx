@@ -155,7 +155,7 @@
                   
                 </li>
                 <li class="nav-item">
-                    <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                    <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-settings-3-fill"></i>
                         <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Settings</span>
                     </a>
@@ -280,7 +280,7 @@
 
                                     </ul>
                                     <div class="mt-3 pt-2">
-                                        <a href="{% url "core:plan-detail" p.pid %}" class="btn btn-info w-100">Invest In Plan</a>
+                                        <a href="{% url "core:plan-detail" p.pid %}" style="background: #d4a003; border: 1px solid #d4a003;" class="btn btn-info w-100">Invest In Plan</a>
                                     </div>
                                 </div>
                             </div>
