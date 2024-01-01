@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'corsheaders',
     'django_crontab',
     'pipeline',
-    'corsheaders',
     #installed apps
     "core",
     "userauths",
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-CORS_ALLOWED_ORIGINS = ['https://www.vangard.com',
+CORS_ALLOWED_ORIGINS = ['https://www.vangardfx.com',
                         # 'https://www.vangard.com/get_user_data/',
                         # 'https://www.vangard.com/user/dashboard'
                         ]
@@ -91,22 +92,22 @@ WSGI_APPLICATION = "vanguardfx.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': 'OIdyAkI8IKLWtr23',
-#         'HOST': 'db.lshuwavlvcotrpkmqilg.supabase.co',
-#         'PORT': '5432',
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'OIdyAkI8IKLWtr23',
+        'HOST': 'db.lshuwavlvcotrpkmqilg.supabase.co',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
@@ -166,7 +167,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = 'userauths.User'
-SESSION_COOKIE_AGE = 60 * 60
+SESSION_COOKIE_AGE = 60 * 60 * 6
 
 
 DEBUG_PROPAGATE_EXCEPTIONS = True

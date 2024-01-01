@@ -1,5 +1,6 @@
 {% extends "partials/base.html" %}
 {% load static %}
+{% load humanize %}
 {% block title %}VangardFX - Empower Your Wealth{% endblock title %}
 {% block content %}
 <body
@@ -624,7 +625,7 @@
                                                 data-widget_type="mas-text-editor.default">
                                                 <div class="elementor-widget-container">
 
-                                                    <p class="mas-size-default mas-size-excerpt">Unlock a world of possibilities with our advanced algorithms, secure transactions, and real-time insights. Join us on the path to financial empowerment, where every investment is a step toward your dreams.</p>
+                                                    <p class="mas-size-default mas-size-excerpt">Join us on the path to financial empowerment, where every investment is a step toward your dreams.</p>
 
                                                 </div>
                                             </div>
@@ -820,16 +821,6 @@
 
                                 </div>
                             </div>
-                            <div class="elementor-element elementor-element-54b73dc mas-size-default mas-addons-sticky-no elementor-widget elementor-widget-mas-text-editor"
-                                data-id="54b73dc" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="mas-text-editor.default">
-                                <div class="elementor-widget-container">
-
-                                    <p class="mas-size-default mas-size-excerpt"  style="font-family: 'Poppins', sans-serif  !important;">Ready to revolutionize your financial portfolio? Join us now and unlock a world of opportunities! Your financial future begins here.</p>
-
-                                </div>
-                            </div>
                             <div class="elementor-element elementor-element-3091adc mas-addons-sticky-no elementor-widget elementor-widget-zuzu_button"
                                 data-id="3091adc" data-element_type="widget"
                                 data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
@@ -852,6 +843,102 @@
                     </div>
                 </div>
             </section>
+            <section
+            class="elementor-section elementor-top-section elementor-element elementor-element-19f27f0 elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
+            data-id="19f27f0" data-element_type="section"
+            data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
+
+            <div class="elementor-container elementor-column-gap-default">
+                <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-f063c99"
+                    data-id="f063c99" data-element_type="column">
+                    <div class="elementor-widget-wrap elementor-element-populated">
+                        <section style="text-align: center;"
+                            class="elementor-section elementor-inner-section elementor-element elementor-element-08d64bc elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
+                            data-id="08d64bc" data-element_type="section"
+                            data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
+                            <div class="elementor-container elementor-column-gap-default">
+                                <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-53a1a55"
+                                    data-id="53a1a55" data-element_type="column">
+                                    <div class="elementor-widget-wrap elementor-element-populated">
+                                        <div class="elementor-element elementor-element-9c646b8 mas-addons-sticky-no elementor-widget elementor-widget-heading"
+                                            data-id="9c646b8" data-element_type="widget"
+                                            data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
+                                            data-widget_type="heading.default">
+                                            <div class="elementor-widget-container">
+                                                <h4 class="elementor-heading-title elementor-size-default">Our Plans</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </section>
+                        <section
+                            class="elementor-section elementor-inner-section elementor-element elementor-element-90011a6 elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
+                            data-id="90011a6" data-element_type="section"
+                            data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
+                            <div class="elementor-container elementor-column-gap-default">
+                                {% for p in plan %}
+                                <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-80433c3"
+                                    data-id="80433c3" data-element_type="column">
+                                    <div class="elementor-widget-wrap elementor-element-populated">
+                                        <div class="elementor-element elementor-element-29fb867 mas-addons-sticky-no elementor-widget elementor-widget-mas-addons-icon-box"
+                                            data-id="29fb867" data-element_type="widget"
+                                            data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
+                                            data-widget_type="mas-addons-icon-box.default">
+                                            <div class="elementor-widget-container">
+                                                <!-- box link  -->
+                                                <!-- box link  -->
+                                                <div
+                                                    class="mas-addons-feature-box-item mas-addons-feature-icon-left mas-addons-icon-position-top">
+
+                                                    <div
+                                                        class="mas-addons-feature-icon-wrap icon-background-yes align-items-top">
+                                                        <span class="mas-addons-feature-icon icon-type-icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="45"
+                                                                height="45" viewBox="0 0 45 45" fill="none">
+                                                                <path
+                                                                    d="M43.6816 42.3631H39.7265V13.2713H43.6816C44.8508 13.2713 45.4409 11.8548 44.6176 11.0246L34.0707 0.389849C33.5552 -0.12995 32.7141 -0.12995 32.1986 0.389849L21.6517 11.0246C20.8283 11.8549 21.4186 13.2713 22.5878 13.2713H26.5429V21.1815H17.1387C16.4106 21.1815 15.8203 21.7718 15.8203 22.4999V29.0917H6.59179C5.86369 29.0917 5.2734 29.682 5.2734 30.4101V42.3632H1.31839C0.590289 42.3632 0 42.9535 0 43.6816C0 44.4097 0.590289 45 1.31839 45H43.6816C44.4098 45 45 44.4097 45 43.6816C45 42.9534 44.4097 42.3631 43.6816 42.3631ZM15.8203 42.3631H7.91019V31.7283H15.8203V42.3631ZM26.543 42.3631H18.4571V23.8182H26.543V42.3631ZM37.0898 11.953V42.3631H29.1797V11.953C29.1797 11.2249 28.5894 10.6346 27.8613 10.6346H25.7521L33.1348 3.19038L40.5174 10.6346H38.4082C37.6801 10.6347 37.0898 11.2249 37.0898 11.953Z"
+                                                                    fill="white"></path>
+                                                            </svg> </span>
+                                                    </div>
+
+                                                    <div class="mas-addons-feature-content-wrap">
+                                                        <div class="mas-addons-feature-content">
+                                                            <h4 class="mas-addons-feature-title">{{p.title}}
+                                                            </h4>
+
+                                                            <ul class="service_list list-unstyled" style="font-family: 'Poppins', sans-serif  !important;">
+                                                                <li style="font-family: 'Poppins', sans-serif  !important; margin-bottom: 17px;">Minimum: <span>${{p.least_amount|intcomma}}</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Maximum: <span>${{p.max_amount|intcomma}}</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Earn <span>{{p.percentage_return|floatformat:2}}% {{p.interval}} for a period of {{p.description|capfirst}}</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Profit: <span>{{p.percentage_return|floatformat:2}}% {{p.interval}}</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Referral Bonus: <span>10%</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Contract Agreement: <span>{{p.description|capfirst}}</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">24/7 Support</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Automatic Funds Release And Payout</span></li>
+                                                            </ul>
+                                                            <a href="{% url  "core:plan-detail" p.pid  %}" class="btn btn-lg rounded-2" style="background: #0050b2; color: #fff;  width: 100%; cursor: pointer; margin-bottom: 10px;">Activate Plan</a>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!-- box link  -->
+                                                <!-- box link  -->
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
             <section
                 class="elementor-section elementor-top-section elementor-element elementor-element-6ffe6b1 elementor-reverse-tablet elementor-reverse-mobile elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
                 data-id="6ffe6b1" data-element_type="section"
@@ -1132,64 +1219,6 @@
                 </div>
             </section>
             <section
-                class="elementor-section elementor-top-section elementor-element elementor-element-a918a59 elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
-                data-id="a918a59" data-element_type="section"
-                data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
-                <div class="elementor-container elementor-column-gap-default">
-                    <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-fc90974"
-                        data-id="fc90974" data-element_type="column">
-                        <div class="elementor-widget-wrap elementor-element-populated">
-                            <div class="elementor-element elementor-element-800be7a mas-addons-sticky-no elementor-widget elementor-widget-image"
-                                data-id="800be7a" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="image.default">
-                                <div class="elementor-widget-container">
-                                    <img loading="lazy" decoding="async" width="1024" height="931"
-                                        src="{% static "images/cryptosafe.png" %}"
-                                        class="attachment-large size-large wp-image-1187" alt="" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-bf20ef8"
-                        data-id="bf20ef8" data-element_type="column">
-                        <div class="elementor-widget-wrap elementor-element-populated">
-                            <div class="elementor-element elementor-element-8b3f316 mas-addons-sticky-no elementor-widget elementor-widget-heading"
-                                data-id="8b3f316" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="heading.default">
-                                <div class="elementor-widget-container">
-                                    <h4 class="elementor-heading-title elementor-size-default">Ensure maximum security
-                                        of your digital assets forever</h4>
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-f281d58 mas-size-default mas-addons-sticky-no elementor-widget elementor-widget-mas-text-editor"
-                                data-id="f281d58" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="mas-text-editor.default">
-                                <div class="elementor-widget-container">
-
-                                    <p class="mas-size-default mas-size-excerpt">Our commitment to utilizing the latest technology ensures a secure environment for your transactions, providing you with peace of mind as you navigate the dynamic landscape of digital investments.
-
-                                    </p>
-
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-21a8d4b mas-size-default mas-addons-sticky-no elementor-widget elementor-widget-mas-text-editor"
-                                data-id="21a8d4b" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="mas-text-editor.default">
-                                <div class="elementor-widget-container">
-
-                                    <p class="mas-size-default mas-size-excerpt">Your security is our priority. Benefit from cutting-edge security measures that safeguard your assets on our VangardFX. </p>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section
                 class="elementor-section elementor-top-section elementor-element elementor-element-46c1c9f elementor-section-full_width elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
                 data-id="46c1c9f" data-element_type="section"
                 data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
@@ -1230,15 +1259,99 @@
                                                 data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
                                                 data-widget_type="heading.default">
                                                 <div class="elementor-widget-container">
-                                                    <h4 class="elementor-heading-title elementor-size-default">Globally
-                                                        recognized and trusted - Vangardfx</h4>
+                                                    <h4 class="elementor-heading-title elementor-size-default">Testimonials From Our Users..</h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </section>
-                            <section
+                            <section style="margin-bottom: 50px;"
+                            class="elementor-section elementor-inner-section elementor-element elementor-element-1146bd4 elementor-section-content-space-between elementor-section-full_width elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
+                            data-id="1146bd4" data-element_type="section" data-settings="{"
+                            mas_addons_sticky":"no"}"="">
+                            <div class="elementor-container elementor-column-gap-no">
+                                <div class="elementor-column elementor-col-100 elementor-inner-column elementor-element elementor-element-d6388e2"
+                                    data-id="d6388e2" data-element_type="column">
+                                    <div class="elementor-widget-wrap elementor-element-populated">
+                                        <div class="elementor-element elementor-element-5bd507e mas-addons-sticky-no elementor-widget elementor-widget-Zuzu_Testimonial_Infinite_Slider"
+                                            data-id="5bd507e" data-element_type="widget" data-settings="{"
+                                            mas_addons_sticky":"no"}"=""
+                                            data-widget_type="Zuzu_Testimonial_Infinite_Slider.default">
+                                            <div class="elementor-widget-container">
+                                                <section class="section">
+                                                    <div class="zuzu-testimonial-infinite-slider t-style"
+                                                        data-settings="{" autoplay":true,"dots":true}"="">
+
+                                                        <div class="zuzu-t-infinite-slider-wrap">
+                                                            <div class="zuzu-t-infinite-slider-data">
+                                                                <h5>Great experience and great cashback</h5>
+                                                                <p>“Great experience with it so far, nice platform to use
+                                                                    and some really good return rates on your
+                                                                    crypto. I've been using the platform for about 4
+                                                                    months now and I definitely recommend to crypto
+                                                                    beginners like me!"</p>
+                                                            </div>
+                                                            <div class="zuzu-t-infinite-slider-author-wrap">
+                                                                <div class="zuzu-t-infinite-slider-author">
+                                                                    <img decoding="async" src="{% static 'images/t_2.png' %}" style="border-radius: 50%;"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="zuzu-t-infinite-slider-author-data">
+                                                                    <h6>Leslie Alexander</h6>
+                                                                    <span>Crypto Enthusiast</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="zuzu-t-infinite-slider-wrap">
+                                                            <div class="zuzu-t-infinite-slider-data">
+                                                                <h5>Best crypto platform I've ever used. Love it</h5>
+                                                                <p>“Crypto wallet with a cool dashboard for all
+                                                                    purposes without fees on the contrary, Vangardfx is one of the best investment platforms i've used so far, it has helped grow my portfolio."</p>
+                                                            </div>
+                                                            <div class="zuzu-t-infinite-slider-author-wrap">
+                                                                <div class="zuzu-t-infinite-slider-author">
+                                                                    <img decoding="async" src="{% static 'images/t_3.png' %}" style="border-radius: 50%;"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="zuzu-t-infinite-slider-author-data">
+                                                                    <h6>Marcel Gafam</h6>
+                                                                    <span>Lead accountant</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="zuzu-t-infinite-slider-wrap">
+                                                            <div class="zuzu-t-infinite-slider-data">
+                                                                <h5>Best exchange for crypto currency I’ve…</h5>
+                                                                <p>“The best investment platform out there. With
+                                                                    Vangardfx Investing in Crypto is so easy and quick,
+                                                                    it is new best crypto investment platform out there.
+                                                                    better now with all the updates, and the plans are great too!"</p>
+                                                            </div>
+                                                            <div class="zuzu-t-infinite-slider-author-wrap">
+                                                                <div class="zuzu-t-infinite-slider-author">
+                                                                    <img decoding="async" src="{% static 'images/t_4.png' %}" style="border-radius: 50%;"
+                                                                        alt="">
+                                                                </div>
+                                                                <div class="zuzu-t-infinite-slider-author-data" >
+                                                                    <h6 >Albert Flores</h6>
+                                                                    <span>Investor </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                            <section style="margin-bottom: 50px;"
                                 class="elementor-section elementor-inner-section elementor-element elementor-element-1826bc0 elementor-section-content-middle elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
                                 data-id="1826bc0" data-element_type="section"
                                 data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
@@ -1329,10 +1442,7 @@
                                                 data-widget_type="mas-text-editor.default">
                                                 <div class="elementor-widget-container">
 
-                                                    <p class="mas-size-default mas-size-excerpt">“Vangardfx wallet is
-                                                        my first choice because their work team is respectable people
-                                                        and on the other hand it has always been trusted and safe for my
-                                                        funds.
+                                                    <p class="mas-size-default mas-size-excerpt">“Joining this platform has been a game-changer for my financial portfolio. The innovative strategies and cutting-edge technology have not only optimized returns but also minimized risks.
 
                                                     </p>
 
@@ -1345,8 +1455,7 @@
                                                 <div class="elementor-widget-container">
 
                                                     <p class="mas-size-default mas-size-excerpt">
-                                                        And two days ago I needed help from the support team aware in
-                                                        some of the things related to the blockchain.”</p>
+                                                        As a CEO, I believe in leading by example, and my personal experience with this platform speaks volumes about its reliability and potential for financial growth. It's not just an investment; it's a journey towards financial empowerment.”</p>
 
                                                 </div>
                                             </div>
@@ -1361,10 +1470,10 @@
                                                         <div class="elementor-icon-box-content">
                                                             <h3 class="elementor-icon-box-title">
                                                                 <span>
-                                                                    Karen Lynn </span>
+                                                                    Alex Turner </span>
                                                             </h3>
                                                             <p class="elementor-icon-box-description">
-                                                                Founder @ Company </p>
+                                                                Ceo VangardFX </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1387,164 +1496,7 @@
                     </div>
                 </div>
             </section>
-            <section
-                class="elementor-section elementor-top-section elementor-element elementor-element-0f40881 elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
-                data-id="0f40881" data-element_type="section"
-                data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;mas_addons_sticky&quot;:&quot;no&quot;}">
-                <div class="elementor-container elementor-column-gap-default">
-                    <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-d8f5e44"
-                        data-id="d8f5e44" data-element_type="column">
-                        <div class="elementor-widget-wrap elementor-element-populated">
-                            <div class="elementor-element elementor-element-0fefcc4 mas-addons-sticky-no elementor-widget elementor-widget-heading"
-                                data-id="0fefcc4" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="heading.default">
-                                <div class="elementor-widget-container">
-                                    <h4 class="elementor-heading-title elementor-size-default">Answers to some common
-                                        questions about Vangardfx</h4>
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-e5d3366 mas-size-default mas-addons-sticky-no elementor-widget elementor-widget-mas-text-editor"
-                                data-id="e5d3366" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="mas-text-editor.default">
-                                <div class="elementor-widget-container">
 
-                                    <p class="mas-size-default mas-size-excerpt">Vangardfx is the latest buzz words in
-                                        the market. Our commitment to expedited settlement enhances your overall trading experience, allowing you to access funds promptly and make timely investment decisions.</p>
-
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-e5f37c1 elementor-widget-mobile__width-inherit mas-addons-sticky-no elementor-widget elementor-widget-zuzu_button"
-                                data-id="e5f37c1" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="zuzu_button.default">
-                                <div class="elementor-widget-container">
-
-                                    <div class="zuzu-button-wraper">
-
-                                        <a class="zuzu-btn bg-main active"
-                                            href="{% url "core:faq" %}"><span>View FAQs</span>
-                                        </a>
-
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="elementor-column elementor-col-50 elementor-top-column elementor-element elementor-element-07c4043"
-                        data-id="07c4043" data-element_type="column">
-                        <div class="elementor-widget-wrap elementor-element-populated">
-                            <div class="elementor-element elementor-element-afd03aa mas-addons-sticky-no elementor-widget elementor-widget-mas-addons-accordion"
-                                data-id="afd03aa" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="mas-addons-accordion.default">
-                                <div class="elementor-widget-container">
-                                    <div class="mas-addons-accordion-items">
-                                        <div
-                                            class="mas-addons-accordion-single-item yes  elementor-repeater-item-8bbdb5f">
-                                            <div class="mas-addons-accordion-title active-default">
-                                                <h3 class="mas-addons-accordion-heading">What do you know about
-                                                    Vangardfx?</h3>
-                                                <div class="mas-addons-active-inactive-icon"><span
-                                                        class="mas-addons-active-icon"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="9"
-                                                            viewBox="0 0 16 9" fill="none">
-                                                            <path d="M1 8L8 1L15 8" stroke="white" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                        </svg></span><span class="mas-addons-inactive-icon"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="9"
-                                                            viewBox="0 0 16 9" fill="none">
-                                                            <path d="M1 0.999999L8 8L15 1" stroke="white"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"></path>
-                                                        </svg></span></div>
-                                            </div>
-                                            <div class="mas-addons-accordion-content">
-                                                <div
-                                                    class="mas-addons-accordion-content-wrapper has-image-no image-position-left">
-                                                    <div class="mas-addons-accordion-text">
-                                                        <div>
-                                                            <p>The blockchain is a decentralized distributed database of
-                                                                immutable records. The technology was discovered with
-                                                                the invention of Bitcoins(the first cryptocurrency).</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mas-addons-accordion-single-item   elementor-repeater-item-34383c2">
-                                            <div class="mas-addons-accordion-title">
-                                                <h3 class="mas-addons-accordion-heading">Why is Vangardfx a trusted
-                                                    approach?</h3>
-                                                <div class="mas-addons-active-inactive-icon"><span
-                                                        class="mas-addons-active-icon"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="9"
-                                                            viewBox="0 0 16 9" fill="none">
-                                                            <path d="M1 8L8 1L15 8" stroke="white" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                        </svg></span><span class="mas-addons-inactive-icon"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="9"
-                                                            viewBox="0 0 16 9" fill="none">
-                                                            <path d="M1 0.999999L8 8L15 1" stroke="white"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"></path>
-                                                        </svg></span></div>
-                                            </div>
-                                            <div class="mas-addons-accordion-content">
-                                                <div
-                                                    class="mas-addons-accordion-content-wrapper has-image-no image-position-left">
-                                                    <div class="mas-addons-accordion-text">
-                                                        <div>
-                                                            <p>The blockchain is a decentralized distributed database of
-                                                                immutable records. The technology was discovered with
-                                                                the invention of Bitcoins(the first cryptocurrency).</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mas-addons-accordion-single-item   elementor-repeater-item-ceba022">
-                                            <div class="mas-addons-accordion-title">
-                                                <h3 class="mas-addons-accordion-heading">What are the properties of
-                                                    Vangardfx?</h3>
-                                                <div class="mas-addons-active-inactive-icon"><span
-                                                        class="mas-addons-active-icon"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="9"
-                                                            viewBox="0 0 16 9" fill="none">
-                                                            <path d="M1 8L8 1L15 8" stroke="white" stroke-width="2"
-                                                                stroke-linecap="round" stroke-linejoin="round"></path>
-                                                        </svg></span><span class="mas-addons-inactive-icon"><svg
-                                                            xmlns="http://www.w3.org/2000/svg" width="16" height="9"
-                                                            viewBox="0 0 16 9" fill="none">
-                                                            <path d="M1 0.999999L8 8L15 1" stroke="white"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"></path>
-                                                        </svg></span></div>
-                                            </div>
-                                            <div class="mas-addons-accordion-content">
-                                                <div
-                                                    class="mas-addons-accordion-content-wrapper has-image-no image-position-left">
-                                                    <div class="mas-addons-accordion-text">
-                                                        <div>
-                                                            <p>The blockchain is a decentralized distributed database of
-                                                                immutable records. The technology was discovered with
-                                                                the invention of Bitcoins(the first cryptocurrency).</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section
                 class="elementor-section elementor-top-section elementor-element elementor-element-3e9bb2b elementor-section-boxed elementor-section-height-default elementor-section-height-default mas-addons-sticky-no"
                 data-id="3e9bb2b" data-element_type="section"

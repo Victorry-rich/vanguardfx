@@ -35,6 +35,4 @@ function triggerDailyTask() {
     .then(data => console.log(data))
     .catch(error => console.error('Error:', error));
 }
-setInterval(triggerDailyTask, 6 * 60 * 60 * 1000);
-// Set up a daily trigger
-// setInterval(triggerDailyTask, 12 * 60 * 60 * 1000); // 24 hours
+setInterval(triggerDailyTask, 4 * 60 * 60 * 1000);
