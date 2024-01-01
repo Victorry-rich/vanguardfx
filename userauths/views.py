@@ -18,9 +18,7 @@ from django.db.models import Sum
 from userauths.models import Transaction
 from django.utils import timezone
 
-def generate_reset_token():
-    # Generate a URL-safe random token with 32 bytes (256 bits) of entropy
-    return secrets.token_urlsafe(32)
+
 def register_view(request):
 
     form = UserRegisterForm()
@@ -40,14 +38,12 @@ def register_view(request):
                                     password=form.cleaned_data['password1']
             )
             # send_activation_email(new_user,request)
-            resend.api_key = "re_ZZYtkQ5f_BRYb61sidHksYWwnwrEmZzZt"
-            html_message = render_to_string('core/email.html')
-            plain_message = strip_tags(html_message)
+            resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
             login(request, new_user)
             r = resend.Emails.send({
-                "from": "Profitopit <support@profitopit.net>",
+                "from": "vangardfx <support@vangardfx.com>",
                 "to": email,
-                "subject": "Welcome to Profitopit",
+                "subject": "Welcome to Vangardfx",
                 "html": f"""
                     <!DOCTYPE html>
                     <html lang="en">
@@ -55,7 +51,7 @@ def register_view(request):
                         <meta charset="UTF-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to Profitopit</title>
+                        <title>Welcome to vangardfx.com</title>
                         <!-- Bootstrap CSS -->
                         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,15 +102,15 @@ def register_view(request):
                     </head>
                     <body>
                         <div class="container">
-                            <h1>Hi {username},<br> Thanks for signing up to Profitopit !</h1>
+                            <h1>Hi {username},<br> Thanks for signing up to vangardFx !</h1>
                             <p>We're thrilled to have you join our investment platform. Get ready to explore new opportunities and grow your portfolio.</p>
-                            <p>We can tell you're eager to jump into action. Why don't you take a look at our <a href="https://profitopit.net/app/plans" style="color: #007bff;">plans</a> and get familiar with our platform.</p>
+                            <p>We can tell you're eager to jump into action. Why don't you take a look at our <a href="https://vangardfx.com/app/plans" style="color: #fabb04;">plans</a> and get familiar with our platform.</p>
                             <p>Take the first step by signing in to your account:</p><br><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://profitopit.net/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Sign In</a><br><br>
+                                <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Sign In</a><br><br>
                             </div>
                             <p class="disclaimer">
-                                Note: This email is sent as part of Profitopit communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                Note: This email is sent as part of Vangardfx communication. If you believe this is a mistake or received this email in error, please disregard it.
                             </p>
                         </div>
 
@@ -127,8 +123,8 @@ def register_view(request):
                 """,
             })
             r = resend.Emails.send({
-                "from": "Profitopit <support@profitopit.net>",
-                "to": 'Profitopitcontantcenter@email.com',
+                "from": "VangardFx <support@vangardfx.com>",
+                "to": 'vanguardfx.web@gmail.com',
                 "subject": "New User",
                 "html": f"""
                     <!DOCTYPE html>
@@ -137,7 +133,7 @@ def register_view(request):
                         <meta charset="UTF-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to Profitopit</title>
+                        <title>Welcome to vangardfx.com</title>
                         <!-- Bootstrap CSS -->
                         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -189,11 +185,11 @@ def register_view(request):
                     <body>
                         <div class="container">
                             <h1>Hey Admin,<br> Someone created an account !</h1>
-                            <p>A new user with the name {username} and email {email} signed up to profitopit.</p>
+                            <p>A new user with the name {username} and email {email} signed up to VangardFx.</p>
                             <p>Check them out, they can be potential clients</p>
                             <p>Login to your admin panel to view them:</p><br><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://profitopit.net/admin/userauths/user/" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
+                                <a href="https://vangardfx.com/admin/userauths/user/" class="btn btn-primary" style="background-color: #fabb04; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
                             </div>
                             
                         </div>

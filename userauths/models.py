@@ -89,9 +89,9 @@ class Deposit(models.Model):
             # Update deposit confirmation status
             self.confirmed = True
             self.save()
-            resend.api_key = "re_ZZYtkQ5f_BRYb61sidHksYWwnwrEmZzZt"
+            resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
             r = resend.Emails.send({
-                "from": "Profitopit <support@profitopit.net>",
+                "from": "VangardFx <support@vangardfx.com>",
                 "to": self.user.email,
                 "subject": f"Deposit has been confirmed",
                 "html": f"""
@@ -101,7 +101,7 @@ class Deposit(models.Model):
                         <meta charset="UTF-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to Profitopit</title>
+                        <title>Welcome to Vangardfx</title>
                         <!-- Bootstrap CSS -->
                         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -156,10 +156,10 @@ class Deposit(models.Model):
                             <h2>Your deposit of ${self.amount} has been confirmed.</h2>
                             <p>The deposit that you made at {self.timestamp} UTC has been confirmed, you can go over to your dashboard to view or invest in any of our plans.</p><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://profitopit.net/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
+                                <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
                             </div>
                             <p style="margin-top: 20px; font-size: 12px; color: #666666;">
-                                Note: This email is sent as part of Profitopit communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                Note: This email is sent as part of Vangardfx communication. If you believe this is a mistake or received this email in error, please disregard it.
                             </p>
                         </div>
 
@@ -183,7 +183,7 @@ class Deposit(models.Model):
                 referred_user.total_deposit += bonus_amount
                 referred_user.save()
                 r = resend.Emails.send({
-                    "from": "Profitopit <support@profitopit.net>",
+                    "from": "Vangardfx <support@vangardfx.com>",
                     "to": referred_user_email,
                     "subject": f"Your Referral Deposited",
                     "html": f"""
@@ -193,7 +193,7 @@ class Deposit(models.Model):
                             <meta charset="UTF-8">
                             <meta http-equiv="X-UA-Compatible" content="IE=edge">
                             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                            <title>Welcome to Profitopit</title>
+                            <title>Welcome to Vangardfx</title>
                             <!-- Bootstrap CSS -->
                             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -248,10 +248,10 @@ class Deposit(models.Model):
                                 <h2>Your referral made a deposit of ${self.amount}.</h2>
                                 <p>A referral bonus of ${bonus_amount} has been credited to your balance.</p><br>
                                 <div style="text-align: center; align-items: center;">
-                                    <a href="https://profitopit.net/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
+                                    <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
                                 </div>
                                 <p style="margin-top: 20px; font-size: 12px; color: #666666;">
-                                    Note: This email is sent as part of Profitopit communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                    Note: This email is sent as part of VangardFx communication. If you believe this is a mistake or received this email in error, please disregard it.
                                 </p>
                             </div>
 
@@ -287,9 +287,9 @@ class Withdraw(models.Model):
             # Update deposit confirmation status
             self.confirmed = True
             self.save()
-            resend.api_key = "re_ZZYtkQ5f_BRYb61sidHksYWwnwrEmZzZt"
+            resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
             r = resend.Emails.send({
-                "from": "Profitopit <support@profitopit.net>",
+                "from": "VangardFx <support@vangardfx.com>",
                 "to": self.user.email,
                 "subject": f"Withdrawal has been confirmed",
                 "html": f"""
@@ -299,7 +299,7 @@ class Withdraw(models.Model):
                         <meta charset="UTF-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to Profitopit</title>
+                        <title>Welcome to vangardfx.com</title>
                         <!-- Bootstrap CSS -->
                         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -354,10 +354,10 @@ class Withdraw(models.Model):
                             <h2>Your withdrawal of ${self.amount} has been confirmed.</h2><br>
                             <p>The withdrawal you placed at {self.timestamp} UTC has been confirmed, you will be credited to your wallet address shortly.</p><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://profitopit.net/app/dashboard class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View dashboard</a><br><br>
+                                <a href="https://vangardfx.com/app/dashboard class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">View dashboard</a><br><br>
                             </div>
                             <p style="margin-top: 20px; font-size: 12px; color: #666666;">
-                                Note: This email is sent as part of Profitopit communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                Note: This email is sent as part of Vangardfx communication. If you believe this is a mistake or received this email in error, please disregard it.
                             </p>
                         </div>
 

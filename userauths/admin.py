@@ -10,7 +10,7 @@ admin.site.register(User, UserAdmin)
 # admin.py
 
 
-admin.site.site_header = 'Profitopit Administration'
+admin.site.site_header = 'Vangardfx Administration'
 
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('user', 'amount', 'transaction_id', 'timestamp')

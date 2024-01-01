@@ -33,7 +33,7 @@ def login_required(
         return actual_decorator(function)
     return actual_decorator
 
-resend.api_key = "re_ZZYtkQ5f_BRYb61sidHksYWwnwrEmZzZt"
+resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
 
 def custom_error_page(request,exception):
     return render(request, 'errors/custom_error.html')
@@ -56,9 +56,9 @@ def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()
             messages.success(request,"Thanks, message sent succesfully")
-            return redirect('core:index')
+            form.save()
+            return redirect('core:contact')
     else:
         form = ContactForm()
 
@@ -163,8 +163,8 @@ def send_deposit_review(request):
     )
     
     r = resend.Emails.send({
-                "from": "Profitopit <support@profitopit.net>",
-                "to": 'Profitopitcontantcenter@email.com',
+                "from": "Vangardfx <support@vangardfx.com>",
+                "to": 'vanguardfx.web@gmail.com',
                 "subject": f"{user} Deposited {amount}",
                 "html": f"""
                     <!DOCTYPE html>
@@ -173,7 +173,7 @@ def send_deposit_review(request):
                         <meta charset="UTF-8">
                         <meta http-equiv="X-UA-Compatible" content="IE=edge">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to Profitopit</title>
+                        <title>Welcome to Vangardfx</title>
                         <!-- Bootstrap CSS -->
                         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -234,7 +234,7 @@ def send_deposit_review(request):
                             <p>wallet address: {wallet_address}</p>
                             <p>Transaction Hash: {trx_hash}</p><br><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://profitopit.net/admin/userauths/deposit/" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
+                                <a href="https://vangardfx.com/admin/userauths/deposit/" class="btn btn-primary" style="background-color: #fabb04; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
                             </div>
                             
                         </div>
@@ -303,7 +303,7 @@ def send_payment_review(request, pid):
             max_amount = max_amount,
         )
         r = resend.Emails.send({
-            "from": "Profitopit <support@profitopit.net>",
+            "from": "Vangardfx <support@vangardfx.com>",
             "to": user.email,
             "subject": "Successful Investment",
             "html": f"""
@@ -313,7 +313,7 @@ def send_payment_review(request, pid):
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Welcome to Profitopit</title>
+                    <title>Welcome to Vangardfx</title>
                     <!-- Bootstrap CSS -->
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -371,10 +371,10 @@ def send_payment_review(request, pid):
                         <h1>Hi {user},</h1>
                         <h2>You successfully invested ${amount} in the {plan}</h2>
                         <p>Dear {user}, your decision to invest with us speaks volumes, and we're excited to embark on this journey together. Our team is committed to ensuring your experience is nothing short of exceptional.</p>
-                        <p>If you have any questions or if there's anything we can assist you with, please feel free to reach out to our customer support team at <a href="mailto:support@profitopit.net">support@profitopit.net</a>. We are here to help and provide any information you may need</p>
-                        <p>Once again, thank you for choosing Profitopit. We look forward to a prosperous and successful investment journey together.</p><br><br>
+                        <p>If you have any questions or if there's anything we can assist you with, please feel free to reach out to our customer support team at <a href="mailto:vanguardfx.web@gmail.com">vanguardfx.web@gmail.com</a>. We are here to help and provide any information you may need</p>
+                        <p>Once again, thank you for choosing Vangardfx. We look forward to a prosperous and successful investment journey together.</p><br><br>
                         <div style="text-align: center; align-items: center;">
-                            <a href="https://profitopit.net/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Dashboard</a><br><br>
+                            <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Dashboard</a><br><br>
                         </div>
                         
                     </div>
@@ -435,8 +435,8 @@ def withdraw_view(request):
             )
             messages.success(request,"Withdrawal placement pending")
             r = resend.Emails.send({
-            "from": "Profitopit <support@profitopit.net>",
-            "to": 'Profitopitcontantcenter@email.com',
+            "from": "Vangardfx <support@vangardfx.com>",
+            "to": 'vanguardfx.web@gmail.com',
             "subject": "Withdrawal Placement",
             "html": f"""
                 <!DOCTYPE html>
@@ -445,7 +445,7 @@ def withdraw_view(request):
                     <meta charset="UTF-8">
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Welcome to Profitopit</title>
+                    <title>Welcome to vangardfx.com</title>
                     <!-- Bootstrap CSS -->
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
                     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -505,7 +505,7 @@ def withdraw_view(request):
                         <h2>{amount}</h2>
                         <p>Login to your admin panel to view them:</p><br><br>
                         <div style="text-align: center; align-items: center;">
-                            <a href="https://profitopit.net/admin/userauths/withdraw/" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
+                            <a href="https://vangardfx.com/admin/userauths/withdraw/" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
                         </div>
                         
                     </div>

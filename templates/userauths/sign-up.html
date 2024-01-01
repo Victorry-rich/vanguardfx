@@ -21,6 +21,18 @@
             <div class="row g-0">
               <div class="col-11 col-md-10 col-lg-9 mx-auto">
                 <h4 class="text-12 mb-4">Create Account</h4>
+                <div class="padding_eight_all bg-white">
+                  {% if form.errors %}
+                  <div class="alert alert-danger">
+                      <strong style="font-size: 13px;">{{form.errors}}</strong>
+                  </div>
+                  {% endif %}
+              </div>
+              <script>
+                  setTimeout (() => {
+                      $(".alert").alert("close");
+                  }, 5000)
+            </script>
                 <form id="registerForm" method="POST">
                   {% csrf_token %}
                   <label class="form-label fw-500" for="username">Username</label>

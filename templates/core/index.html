@@ -251,7 +251,11 @@
 
                                                     <div class="zuzu-menu-container">
                                                         <ul id="navbar-nav" class="navbar-nav">
-                                                         
+                                                            <li
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16060  ">
+                                                            <a
+                                                                href="/">Home</a>
+                                                        </li>
                                                             <li
                                                                 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-16144  ">
                                                                 <a href="{% url "core:about" %}">About
@@ -436,7 +440,7 @@
                                                 data-widget_type="mas-text-editor.default">
                                                 <div class="elementor-widget-container">
 
-                                                    <p class="mas-size-default mas-size-excerpt" style="font-size: 16px;">At VangardFX, we believe in the power of intelligent investing. Whether you're just starting your journey or looking to optimize your portfolio, we provide the tools and insights you need for financial success..</p>
+                                                    <p class="mas-size-default mas-size-excerpt" style="font-size: 16px; font-family: 'Poppins', sans-serif  !important;">At VangardFX, we believe in the power of intelligent investing. Whether you're just starting your journey or looking to optimize your portfolio, we provide the tools and insights you need for financial success..</p>
 
                                                 </div>
                                             </div>
@@ -449,7 +453,8 @@
                                                 }
                                                 .bg-main{
                                                     color: #fff !important;
-                                                    width: 200px;
+                                                    width: 220px;
+                                                    font-family: 'Poppins', sans-serif  !important;
                                                 }
                                                 .bg-main::before{
                                                     background: #d5a105 !important;
@@ -457,16 +462,29 @@
                                                 }
                                                 .bg-hover{
                                                     color: #fff !important;
-                                                    background: grey !important;
+                                                    background: transparent !important;
+                                                    border: 1px solid #fff;
                                                     width: 200px;
+                                                    font-family: 'Poppins', sans-serif  !important;
+                                                }
+                                                .bg-hover:hover{
+                                                    border: 1px solid #070f1c !important;
                                                 }
                                                 .bg-hover:hover::before{
-                                                    background: #d5a105 !important;
+                                                    background: #070f1c !important;
+                                                    border: 1px solid #070f1c !important;
                                                 }
                                                 .tradingview-widget-copyright{
                                                     display: none !important;
                                                     
                                                 }
+                                                @media only screen and (max-width: 767px) {
+                                                    .bg-media {
+                                                      width: 280px;
+                                                      height: 55px;
+                                                    }
+                                                  }
+                                                  
                                             </style>
                                             <div class="elementor-element elementor-element-a5a4669 elementor-widget__width-auto mas-addons-sticky-no elementor-widget elementor-widget-zuzu_button"
                                                 data-id="a5a4669" data-element_type="widget"
@@ -476,8 +494,8 @@
 
                                                     <div class="zuzu-button-wraper">
 
-                                                        <a class="zuzu-btn bg-main active"
-                                                            href="{% url "userauths:sign-up" %}"><span>Create Account</span>
+                                                        <a class="zuzu-btn bg-main active bg-media"
+                                                            href="{% url "userauths:sign-up" %}"><span>Create Account <i class="ri-arrow-right-up-line"></i></span>
                                                         </a>
 
 
@@ -494,11 +512,11 @@
 
                                                     <div class="zuzu-button-wraper">
                                                         {% if request.user.is_authenticated %}
-                                                        <a class="zuzu-btn bg-hover"
+                                                        <a class="zuzu-btn bg-hover bg-media"
                                                             href="{% url "core:dashboard" %}">
                                                             Dashboard </a>
                                                             {% else %}
-                                                        <a class="zuzu-btn bg-hover"
+                                                        <a class="zuzu-btn bg-hover bg-media"
                                                             href="{% url "userauths:sign-in" %}">
                                                             Sign In </a>
                                                             {% endif %}
@@ -645,12 +663,10 @@
 
                                                         <div class="mas-addons-feature-content-wrap">
                                                             <div class="mas-addons-feature-content">
-                                                                <h4 class="mas-addons-feature-title">Increased Capacity
+                                                                <h4 class="mas-addons-feature-title">Predictive Analytics
                                                                 </h4>
 
-                                                                <p>This is the first & an important feature of
-                                                                    Vangardfx. The most remarkable thing about this
-                                                                    Vangardfx.</p>
+                                                                <p style="font-family: 'Poppins', sans-serif  !important;">Unleash the power of data-driven insights, empowering you to make informed decisions and stay ahead of market trends. </p>
 
 
                                                             </div>
@@ -693,9 +709,7 @@
                                                                 <h4 class="mas-addons-feature-title">Faster Settlement
                                                                 </h4>
 
-                                                                <p>Vangardfx technology is considered more secure than
-                                                                    its contemporaries because of lack of a single
-                                                                    point.</p>
+                                                                <p  style="font-family: 'Poppins', sans-serif  !important;">Experience the efficiency of faster settlement times on our platform. Swift and secure transactions mean reduced waiting periods for your trades to be processed. </p>
 
 
                                                             </div>
@@ -741,10 +755,9 @@
 
                                                         <div class="mas-addons-feature-content-wrap">
                                                             <div class="mas-addons-feature-content">
-                                                                <h4 class="mas-addons-feature-title">Immutability</h4>
+                                                                <h4 class="mas-addons-feature-title">Advanced Security</h4>
 
-                                                                <p>Creating immutable ledgers is one of the main values
-                                                                    of Vangardfx. Any database that is centralized.</p>
+                                                                <p  style="font-family: 'Poppins', sans-serif  !important;">Your security is our priority. Benefit from cutting-edge security measures that safeguard your assets on our investment platform</p>
 
 
                                                             </div>
@@ -780,7 +793,6 @@
                                     <img fetchpriority="high" decoding="async" width="575" height="486"
                                         src="{% static 'wp-content/uploads/2022/12/q3-copy.png' %}"
                                         class="attachment-large size-large wp-image-956" alt=""
-                                        srcset="https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/q3-copy.png 575w, https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/q3-copy-300x254.png 300w"
                                         sizes="(max-width: 575px) 100vw, 575px" />
                                 </div>
                             </div>
@@ -794,8 +806,7 @@
                                 data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
                                 data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
-                                    <h4 class="elementor-heading-title elementor-size-default">Especially promising and
-                                        revolutionary technologies</h4>
+                                    <h4 class="elementor-heading-title elementor-size-default">Maximized Returns, Minimized Risks On Investments</h4>
                                 </div>
                             </div>
                             <div class="elementor-element elementor-element-84b22df mas-size-default mas-addons-sticky-no elementor-widget elementor-widget-mas-text-editor"
@@ -804,9 +815,7 @@
                                 data-widget_type="mas-text-editor.default">
                                 <div class="elementor-widget-container">
 
-                                    <p class="mas-size-default mas-size-excerpt">Vangardfx is an especially promising
-                                        and revolutionary technology because it helps reduce security risks, stamp out
-                                        fraud and bring transparency in a scalable way.
+                                    <p class="mas-size-default mas-size-excerpt"  style="font-family: 'Poppins', sans-serif  !important;">Our expertly crafted strategies are designed to optimize returns while minimizing risks. Your investments are in safe hands, backed by a team of professionals committed to your financial success.
                                     </p>
 
                                 </div>
@@ -817,9 +826,7 @@
                                 data-widget_type="mas-text-editor.default">
                                 <div class="elementor-widget-container">
 
-                                    <p class="mas-size-default mas-size-excerpt">Popularized by its association with
-                                        cryptocurrency &#038; NFTs Vangardfx technology has since evolved to become a
-                                        management solution.</p>
+                                    <p class="mas-size-default mas-size-excerpt"  style="font-family: 'Poppins', sans-serif  !important;">Ready to revolutionize your financial portfolio? Join us now and unlock a world of opportunities! Your financial future begins here.</p>
 
                                 </div>
                             </div>
@@ -832,8 +839,7 @@
                                     <div class="zuzu-button-wraper" >
 
                                         <a class="zuzu-btn bg-main active"
-                                            href=""><span>Discover
-                                                More</span>
+                                            href="{% url "userauths:sign-up" %}"><span>Join Us</span>
                                         </a>
 
 
@@ -859,8 +865,7 @@
                                 data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
                                 data-widget_type="heading.default">
                                 <div class="elementor-widget-container">
-                                    <h4 class="elementor-heading-title elementor-size-default">Vangardfx is significant
-                                        in the modern business world</h4>
+                                    <h4 class="elementor-heading-title elementor-size-default"> Innovative Insights, Strategic Advantage</h4>
                                 </div>
                             </div>
                             <div class="elementor-element elementor-element-50dfb86 mas-size-default mas-addons-sticky-no elementor-widget elementor-widget-mas-text-editor"
@@ -869,9 +874,8 @@
                                 data-widget_type="mas-text-editor.default">
                                 <div class="elementor-widget-container">
 
-                                    <p class="mas-size-default mas-size-excerpt">10% of the global population own
-                                        cryptocurrencies. 16% of Americans have invested in cryptocurrency. Using
-                                        blockchain, financial institutions can save up to $12 billion every year.</p>
+                                    <p class="mas-size-default mas-size-excerpt"  style="font-family: 'Poppins', sans-serif  !important;">10.2% of the global internet users own
+                                        cryptocurrencies. 16% of Americans have invested in cryptocurrency. and they are over 420 million crypto users worldwide - source from <a href="https://www.un.org/en/">United Nations Report</a></p>
 
                                 </div>
                             </div>
@@ -884,7 +888,7 @@
                                         <div
                                             class="mas-addons-accordion-single-item yes  elementor-repeater-item-8bbdb5f">
                                             <div class="mas-addons-accordion-title active-default">
-                                                <h3 class="mas-addons-accordion-heading">Building trust</h3>
+                                                <h3 class="mas-addons-accordion-heading">Faster Trades, Bigger Wins</h3>
                                                 <div class="mas-addons-active-inactive-icon"><span
                                                         class="mas-addons-active-icon"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="16" height="9"
@@ -902,10 +906,8 @@
                                             <div class="mas-addons-accordion-content">
                                                 <div
                                                     class="mas-addons-accordion-content-wrapper has-image-no image-position-left">
-                                                    <div class="mas-addons-accordion-text">
-                                                        <div>Bitcoin and cryptocurrencies, in general, are iconic
-                                                            examples of how blockchain builds trust between entities
-                                                            &amp; also customers.</div>
+                                                    <div class="mas-addons-accordion-text"  style="font-family: 'Poppins', sans-serif  !important;">
+                                                        <div>Time is money, and we value both. Benefit from lightning-fast trade executions, ensuring you capitalize on market opportunities swiftly. Faster trades mean bigger wins for you!</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -913,7 +915,7 @@
                                         <div
                                             class="mas-addons-accordion-single-item no  elementor-repeater-item-1d80460">
                                             <div class="mas-addons-accordion-title">
-                                                <h3 class="mas-addons-accordion-heading">Reducing costs</h3>
+                                                <h3 class="mas-addons-accordion-heading">Fort Knox Security</h3>
                                                 <div class="mas-addons-active-inactive-icon"><span
                                                         class="mas-addons-active-icon"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="16" height="9"
@@ -931,10 +933,8 @@
                                             <div class="mas-addons-accordion-content">
                                                 <div
                                                     class="mas-addons-accordion-content-wrapper has-image-no image-position-left">
-                                                    <div class="mas-addons-accordion-text">
-                                                        <div>Bitcoin and cryptocurrencies, in general, are iconic
-                                                            examples of how blockchain builds trust between entities
-                                                            &amp; also customers.</div>
+                                                    <div class="mas-addons-accordion-text"  style="font-family: 'Poppins', sans-serif  !important;">
+                                                        <div>Your security is paramount. Rest easy knowing your assets are safeguarded by industry-leading security measures. We take every precaution to ensure your peace of mind.</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -942,7 +942,7 @@
                                         <div
                                             class="mas-addons-accordion-single-item no  elementor-repeater-item-879cea2">
                                             <div class="mas-addons-accordion-title">
-                                                <h3 class="mas-addons-accordion-heading">Bringing innovation</h3>
+                                                <h3 class="mas-addons-accordion-heading">Cutting-Edge Technology</h3>
                                                 <div class="mas-addons-active-inactive-icon"><span
                                                         class="mas-addons-active-icon"><svg
                                                             xmlns="http://www.w3.org/2000/svg" width="16" height="9"
@@ -960,10 +960,9 @@
                                             <div class="mas-addons-accordion-content">
                                                 <div
                                                     class="mas-addons-accordion-content-wrapper has-image-no image-position-left">
-                                                    <div class="mas-addons-accordion-text">
-                                                        <div>Bitcoin and cryptocurrencies, in general, are iconic
-                                                            examples of how blockchain builds trust between entities
-                                                            &amp; also customers.</div>
+                                                    <div class="mas-addons-accordion-text"  style="font-family: 'Poppins', sans-serif  !important;">
+                                                        <div>Experience investment like never before with our state-of-the-art platform. We leverage the latest technology to provide you with a seamless and secure trading environment.
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1114,7 +1113,6 @@
                                                                 height="600"
                                                                 src="{% static 'wp-content/uploads/2022/12/Video-bg-b.png' %}"
                                                                 class="attachment-full size-full wp-image-1731" alt=""
-                                                                srcset="https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/Video-bg-b.png 1296w, https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/Video-bg-b-300x139.png 300w, https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/Video-bg-b-1024x474.png 1024w, https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/Video-bg-b-768x356.png 768w"
                                                                 sizes="(max-width: 1296px) 100vw, 1296px" />
                                                             <div class="elementor-custom-embed-play" role="button" style="background: #fabb04; color:  #fabb04;"
                                                                 aria-label="Play Video" tabindex="0">
@@ -1147,7 +1145,7 @@
                                 data-widget_type="image.default">
                                 <div class="elementor-widget-container">
                                     <img loading="lazy" decoding="async" width="1024" height="931"
-                                        src="https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2022/12/blockchain-icon09.svg"
+                                        src="{% static "images/cryptosafe.png" %}"
                                         class="attachment-large size-large wp-image-1187" alt="" />
                                 </div>
                             </div>
@@ -1171,10 +1169,7 @@
                                 data-widget_type="mas-text-editor.default">
                                 <div class="elementor-widget-container">
 
-                                    <p class="mas-size-default mas-size-excerpt">It is safe and ideal for storing
-                                        digital assets, it is very decentralized nature. By using cryptographic hashes,
-                                        each asset can be securely stored on the blockchain and tracked as it changes
-                                        hands.
+                                    <p class="mas-size-default mas-size-excerpt">Our commitment to utilizing the latest technology ensures a secure environment for your transactions, providing you with peace of mind as you navigate the dynamic landscape of digital investments.
 
                                     </p>
 
@@ -1186,9 +1181,7 @@
                                 data-widget_type="mas-text-editor.default">
                                 <div class="elementor-widget-container">
 
-                                    <p class="mas-size-default mas-size-excerpt">Blockchains are the technology
-                                        solutions that enable digital assets. A real blockchain is a method of securely
-                                        recording on a peer-to-peer network.</p>
+                                    <p class="mas-size-default mas-size-excerpt">Your security is our priority. Benefit from cutting-edge security measures that safeguard your assets on our VangardFX. </p>
 
                                 </div>
                             </div>
@@ -1238,7 +1231,7 @@
                                                 data-widget_type="heading.default">
                                                 <div class="elementor-widget-container">
                                                     <h4 class="elementor-heading-title elementor-size-default">Globally
-                                                        recognized and trusted Vangardfx technology</h4>
+                                                        recognized and trusted - Vangardfx</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -1261,7 +1254,6 @@
                                                     <img loading="lazy" decoding="async" width="660" height="311"
                                                         src="{% static 'wp-content/uploads/2023/03/Map.png' %}"
                                                         class="attachment-large size-large wp-image-15385" alt=""
-                                                        srcset="https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2023/03/Map.png 660w, https://mthemeus.com/demos/wp/zuzu/wp-content/uploads/2023/03/Map-300x141.png 300w"
                                                         sizes="(max-width: 660px) 100vw, 660px" />
                                                 </div>
                                             </div>
@@ -1391,25 +1383,6 @@
                                         loading="lazy" />
                                 </div>
                             </div>
-                            <div class="elementor-element elementor-element-a5cd24d elementor-widget__width-auto elementor-widget-tablet__width-auto mas-addons-sticky-no elementor-widget elementor-widget-zuzu_button"
-                                data-id="a5cd24d" data-element_type="widget"
-                                data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
-                                data-widget_type="zuzu_button.default">
-                                <div class="elementor-widget-container">
-
-                                    <div class="zuzu-button-wraper">
-
-                                        <a class="zuzu-btn bg-main active"
-                                            href="https://mthemeus.com/demos/wp/zuzu/contact-01/"><span>View All
-                                                Reviews</span>
-                                        </a>
-
-
-                                    </div>
-
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1438,8 +1411,7 @@
                                 <div class="elementor-widget-container">
 
                                     <p class="mas-size-default mas-size-excerpt">Vangardfx is the latest buzz words in
-                                        the market. Bitcoin is great, but the potential of the underlying technology is
-                                        immense.</p>
+                                        the market. Our commitment to expedited settlement enhances your overall trading experience, allowing you to access funds promptly and make timely investment decisions.</p>
 
                                 </div>
                             </div>
@@ -1617,7 +1589,7 @@
                                                                 <ul></ul>
                                                             </div>
                                                             <form
-                                                                action="https://mthemeus.com/demos/wp/zuzu/blockchain/#wpcf7-f1465-p376-o1"
+                                                                
                                                                 method="post" class="wpcf7-form init"
                                                                 aria-label="Contact form" novalidate="novalidate"
                                                                 data-status="init">
