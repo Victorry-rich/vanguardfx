@@ -880,19 +880,19 @@
                             <div class="elementor-container elementor-column-gap-default">
                                 {% for p in plan %}
                                 <div class="elementor-column elementor-col-33 elementor-inner-column elementor-element elementor-element-80433c3"
-                                    data-id="80433c3" data-element_type="column">
+                                    data-id="80433c3" data-element_type="column" >
                                     <div class="elementor-widget-wrap elementor-element-populated">
                                         <div class="elementor-element elementor-element-29fb867 mas-addons-sticky-no elementor-widget elementor-widget-mas-addons-icon-box"
                                             data-id="29fb867" data-element_type="widget"
                                             data-settings="{&quot;mas_addons_sticky&quot;:&quot;no&quot;}"
                                             data-widget_type="mas-addons-icon-box.default">
-                                            <div class="elementor-widget-container">
+                                            <div class="elementor-widget-container" >
                                                 <!-- box link  -->
                                                 <!-- box link  -->
                                                 <div
                                                     class="mas-addons-feature-box-item mas-addons-feature-icon-left mas-addons-icon-position-top">
 
-                                                    <div
+                                                    <div style="display: flex; justify-content: center; align-items: center;"
                                                         class="mas-addons-feature-icon-wrap icon-background-yes align-items-top">
                                                         <span class="mas-addons-feature-icon icon-type-icon">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="45"
@@ -903,22 +903,22 @@
                                                             </svg> </span>
                                                     </div>
 
-                                                    <div class="mas-addons-feature-content-wrap">
+                                                    <div class="mas-addons-feature-content-wrap" style="text-align: center !important;">
                                                         <div class="mas-addons-feature-content">
-                                                            <h4 class="mas-addons-feature-title">{{p.title}}
+                                                            <h4 class="mas-addons-feature-title" >{{p.title}}
                                                             </h4>
 
-                                                            <ul class="service_list list-unstyled" style="font-family: 'Poppins', sans-serif  !important;">
+                                                            <ul class="service_list list-unstyled" style="font-family: 'Poppins', sans-serif  !important; text-align: center;">
                                                                 <li style="font-family: 'Poppins', sans-serif  !important; margin-bottom: 17px;">Minimum: <span>${{p.least_amount|intcomma}}</span></li>
                                                                 <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Maximum: <span>${{p.max_amount|intcomma}}</span></li>
-                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Earn <span>{{p.percentage_return|floatformat:2}}% {{p.interval}} for a period of {{p.description|capfirst}}</span></li>
+                                                                <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;"><span>{{p.percentage_return|floatformat:2}}% {{p.interval}} for a period of {{p.description|capfirst}}</span></li>
                                                                 <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Profit: <span>{{p.percentage_return|floatformat:2}}% {{p.interval}}</span></li>
                                                                 <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Referral Bonus: <span>10%</span></li>
                                                                 <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Contract Agreement: <span>{{p.description|capfirst}}</span></li>
                                                                 <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">24/7 Support</span></li>
                                                                 <li style="font-family: 'Poppins', sans-serif  !important;  margin-bottom: 17px;">Automatic Funds Release And Payout</span></li>
                                                             </ul>
-                                                            <a href="{% url  "core:plan-detail" p.pid  %}" class="btn btn-lg rounded-2" style="background: #0050b2; color: #fff;  width: 100%; cursor: pointer; margin-bottom: 10px;">Activate Plan</a>
+                                                            <a href="{% url  "core:plan-detail" p.pid  %}" class="btn btn-lg rounded-2" style="background: #FABB04; color: #fff;  width: 100%; cursor: pointer; margin-bottom: 10px;">Activate Plan</a>
 
 
                                                         </div>
