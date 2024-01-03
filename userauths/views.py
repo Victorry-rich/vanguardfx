@@ -124,7 +124,7 @@ def register_view(request):
             })
             r = resend.Emails.send({
                 "from": "VangardFx <support@vangardfx.com>",
-                "to": 'vanguardfx.web@gmail.com',
+                "to": 'vanguardfx.org@gmail.com',
                 "subject": "New User",
                 "html": f"""
                     <!DOCTYPE html>
