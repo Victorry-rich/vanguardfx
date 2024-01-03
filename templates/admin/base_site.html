@@ -9,4 +9,35 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon-16x16.png" %}">
     <link rel="manifest" href="{% static "site.webmanifest" %}">
     <link rel="shortcut icon" href="{% static 'favicon-32x32.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        #header{
+            background: #FABB04;
+            font-family: 'Poppins', sans-serif;
+        }
+        input[type="submit"]{
+            background: #FABB04;
+            font-family: 'Poppins', sans-serif;
+        }
+        input[type="submit"]:hover{
+            background: #FABB04;
+            width: 100px;
+            font-family: 'Poppins', sans-serif;
+        }
+        caption{
+            background: #0050b2 !important;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        th a, .changelink, .deletelink, .content, input,select{
+            font-family: 'Poppins', sans-serif !important;
+        }
+        td a, th, td{
+            font-family: 'Poppins', sans-serif !important;
+        }
+        h1{
+            font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
 {% endblock %}
