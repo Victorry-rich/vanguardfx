@@ -58,8 +58,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 CORS_ALLOWED_ORIGINS = ['https://www.vangardfx.com',
-                        # 'https://www.vangard.com/get_user_data/',
-                        # 'https://www.vangard.com/user/dashboard'
                         ]
 
 PIPELINE = {
