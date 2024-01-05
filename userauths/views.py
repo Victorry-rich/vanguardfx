@@ -282,6 +282,34 @@ def lock_screen_view(request):
     logout(request)
     return redirect("userauths:sign-in")
 
+# def perform_daily_task():
+#     # Your code for the daily task goes here
+#     current_time = timezone.now()
+
+#     # Your logic to calculate and update total_invested
+#     transactions = Transaction.objects.all()
+
+#     for transaction in transactions:
+#         # Calculate the time difference between the current time and the transaction timestamp
+#         time_difference = current_time - transaction.timestamp
+#         # Check if the interval condition is met
+#         if (
+#             # (transaction.interval == 'hourly' and time_difference.seconds >= 3600) or
+#             (transaction.interval == 'hourly' and time_difference.seconds >= 30) or
+#             (transaction.interval == 'daily' and time_difference.days >= 1) or
+#             (transaction.interval == 'weekly' and time_difference.days >= 7) or
+#             (transaction.interval == 'monthly' and time_difference.days >= 30)
+#         )  and not transaction.plan_interval_processed:
+#             # Calculate the amount to be added based on your formula
+#             amount_to_add = transaction.percentage_return * transaction.amount / 100
+
+#             # Update the user's total_invested field
+#             transaction.user.total_invested += amount_to_add
+#             transaction.user.total_deposit += transaction.user.total_invested
+#             transaction.user.total_invested = 0
+#             transaction.user.save()
+#             transaction.plan_interval_processed = True
+#             transaction.save()
 def perform_daily_task():
     # Your code for the daily task goes here
     current_time = timezone.now()
@@ -292,24 +320,31 @@ def perform_daily_task():
     for transaction in transactions:
         # Calculate the time difference between the current time and the transaction timestamp
         time_difference = current_time - transaction.timestamp
-        # Check if the interval condition is met
-        if (
-            # (transaction.interval == 'hourly' and time_difference.seconds >= 3600) or
-            (transaction.interval == 'hourly' and time_difference.seconds >= 30) or
-            (transaction.interval == 'daily' and time_difference.days >= 1) or
-            (transaction.interval == 'weekly' and time_difference.days >= 7) or
-            (transaction.interval == 'monthly' and time_difference.days >= 30)
-        )  and not transaction.plan_interval_processed:
-            # Calculate the amount to be added based on your formula
-            amount_to_add = transaction.percentage_return * transaction.amount / 100
+        if int(transaction.interval_count) < int(transaction.convert_description_to_days()) and not transaction.plan_interval_processed:
+            if (
+                (transaction.interval == 'hourly' and time_difference.seconds >= 30) or
+                (transaction.interval == 'daily' and time_difference.days >= 1) or
+                (transaction.interval == 'weekly' and time_difference.days >= 7) or
+                (transaction.interval == 'monthly' and time_difference.days >= 30)
+            ) :
+                # Calculate the amount to be added based on your formula
+                amount_to_add = transaction.percentage_return * transaction.amount / 100
 
-            # Update the user's total_invested field
-            transaction.user.total_invested += amount_to_add
+                # Update the user's total_invested field
+                transaction.user.total_invested += amount_to_add
+                transaction.user.save()
+                transaction.interval_count += 1
+                transaction.save()
+        else: 
             transaction.user.total_deposit += transaction.user.total_invested
+            transaction.user.save()
             transaction.user.total_invested = 0
             transaction.user.save()
+
+            # Set plan_interval_processed to True
             transaction.plan_interval_processed = True
-            transaction.save()
+            transaction.save()  
+            # Save the changes
 def trigger_daily_task(request):
     # Call your perform_daily_task function here
     perform_daily_task()
