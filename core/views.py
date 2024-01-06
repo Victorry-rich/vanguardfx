@@ -371,7 +371,7 @@ def send_payment_review(request, pid):
                         <h1>Hi {user},</h1>
                         <h2>You successfully invested ${amount} in the {plan}</h2>
                         <p>Dear {user}, your decision to invest with us speaks volumes, and we're excited to embark on this journey together. Our team is committed to ensuring your experience is nothing short of exceptional.</p>
-                        <p>If you have any questions or if there's anything we can assist you with, please feel free to reach out to our customer support team at <a href="mailto:vangardfx.org@gmail.com">vangardfx.org@gmail.com</a>. We are here to help and provide any information you may need</p>
+                        <p>If you have any questions or if there's anything we can assist you with, please feel free to reach out to our customer support team at <a href="mailto:vanguardfx.org@gmail.com">vangardfx.org@gmail.com</a>. We are here to help and provide any information you may need</p>
                         <p>Once again, thank you for choosing Vangardfx. We look forward to a prosperous and successful investment journey together.</p><br><br>
                         <div style="text-align: center; align-items: center;">
                             <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Dashboard</a><br><br>
