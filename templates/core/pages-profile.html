@@ -1,5 +1,6 @@
 {% extends "partials/appbase.html" %}
 {% load static %}
+{% load humanize %}
 {% block content %}
 
 <!-- removeNotificationModal -->
@@ -54,11 +55,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<style>
-    .app-menu.navbar-menu{
-        background: #212529;
-    }
-</style>
         <!-- ========== App Menu ========== -->
         <div class="app-menu navbar-menu">
             <!-- LOGO -->
@@ -66,19 +62,19 @@
                 <!-- Dark Logo-->
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                        <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
                     </span>
                     <span class="logo-lg">
-                        <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                        <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
                     </span>
                 </a>
                 <!-- Light Logo-->
                 <a href="/" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                        <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
                     </span>
                     <span class="logo-lg">
-                        <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                        <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -96,12 +92,12 @@
                         <li class="nav-item d-flex d-sm-none" style="align-items: center;">
                             <a href="/" class="nav-link menu-link"  aria-controls="sidebarPages" >
                                 
-                                <span data-key="t-pages"><img src="{% static 'img/logo-nice.png' %}" alt="" height="40"></span>
+                                <span data-key="t-pages"><img src="{% static 'logo/logo-8.png' %}" alt="" height="40"></span>
                             </a>
                           
                         </li>
                         <li class="nav-item">
-                            <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                            <a href="{% url "core:dashboard" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                                 <i class="ri-account-circle-line"></i>
                                 <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">My Account</span>
                             </a>
@@ -150,13 +146,7 @@
                             </a>
                           
                         </li>
-                        <li class="nav-item">
-                            <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
-                                <i class="ri-settings-3-fill"></i>
-                                <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Settings</span>
-                            </a>
-                          
-                        </li>
+
                         <li class="nav-item">
                             <a href="{% url "core:referrals" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                                 <i class="ri-login-circle-fill"></i>
@@ -250,7 +240,7 @@
 
                                     </ul>
                                     <div class="flex-shrink-0">
-                                        <a href="{% url "core:profile-settings" %}" style="background: #d4a003; border: 1px solid #d4a003;" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> View Profile</a>
+                                        <a href="{% url "core:profile-settings" %}" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> View Profile</a>
                                     </div>
                                 </div>
                                 <!-- Tab panes -->
@@ -278,7 +268,7 @@
                                                                     
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Balance :</th>
-                                                                        <td class="text-muted">${{user.total_balance}}
+                                                                        <td class="text-muted">${{user.total_deposit}}
                                                                         </td>
                                                                     </tr>
                                                                     <script>
@@ -304,7 +294,7 @@
                                                                     </script>
                                                                     <tr>
                                                                         <th class="ps-0" scope="row">Referral Code :</th>
-                                                                        <td class="fw-semibold">{{user.referral_code}} 
+                                                                        <td class="fw-semibold">https://cryptovest.online/sign-up/?ref={{user.referral_code}} 
                                                                         </td>
                                                                         <td><span class="copy-button" style="cursor: pointer;" onclick="copyToClipboard()"><img src="{% static 'asset/images/small/copy.png' %}" height="20" width="20" aria-label="copy address"></span>
                                                                         </td>

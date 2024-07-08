@@ -2,26 +2,79 @@ from django.shortcuts import render,redirect
 from userauths.forms import UserRegisterForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from django.conf import settings
 from django.contrib.auth import logout
 from userauths.models import User
-from django.conf import settings
-from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 import resend
-import secrets
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .models import Deposit
 from django.db.models import Sum
 from userauths.models import Transaction
 from django.utils import timezone
+from .models import UserToken
+from .utils import send_confirmation_email, reset_password
+from django.contrib.auth.hashers import make_password
+from django.db import transaction as ts
+from django.conf import settings
+resend.api_key = getattr(settings, 'SENSITIVE_VARIABLE', None)
+
+def perform_daily_task():
+    try:
+        current_time = timezone.now()
+
+        # Fetch only the transactions that are not processed yet
+        transactions = Transaction.objects.filter(plan_interval_processed=False, confirmed=True)
+
+        for transaction in transactions:
+            time_difference = current_time - transaction.timestamp
+            if int(transaction.interval_count) < int(transaction.convert_description_to_days()) and (time_difference.days >= transaction.days_count):
+               
+                 
+                    amount_to_add = transaction.percentage_return * transaction.amount / 100
+                
+                    # Update the user's total_invested field
+                    transaction.user.total_invested += amount_to_add
+                    transaction.user.save()
+ 
+                    # Update interval_count and days_count
+                    transaction.interval_count += 1
+                    transaction.days_count += 1
+
+                    # Save all changes at once
+                    transaction.save(update_fields=['interval_count', 'days_count'])
+
+            # elif transaction.interval_count >= 7:
+                
+            #     # Move total_invested to total_deposit
+            #     transaction.user.total_deposit += transaction.user.total_invested
+            #     transaction.user.total_invested = 0
+            #     transaction.user.save(update_fields=['total_deposit', 'total_invested'])
+
+            #     # Set plan_interval_processed to True
+            #     transaction.plan_interval_processed = True
+            #     transaction.save()
+
+            elif time_difference.days >= int(transaction.convert_description_to_days()):
+                 # Move total_invested to total_deposit
+                transaction.user.total_deposit += transaction.user.total_invested
+                transaction.user.total_invested = 0
+                transaction.user.save(update_fields=['total_deposit', 'total_invested'])
+
+                # Set plan_interval_processed to True
+                transaction.plan_interval_processed = True
+                transaction.save()
+            else: 
+                pass
+
+
+
+    except Exception as e:
+        print(f"Error in perform_daily_task: {e}")
+
 
 
 def register_view(request):
-
-    form = UserRegisterForm()
+    pre_filled_email = request.session.get('pre_filled_email', '')
+    form = UserRegisterForm(initial={'email': pre_filled_email})
     if request.method == "POST":
         address = request.POST['address']
         username = request.POST['username']
@@ -29,196 +82,119 @@ def register_view(request):
         
         if form.is_valid():
             
-            new_user = form.save()
+            new_user = form.save(commit=False)  # Don't save the user yet
+            new_user.email_verified = False
+            new_user.save()
+            send_confirmation_email(request, new_user)
             
             username = form.cleaned_data.get("username")
             email = form.cleaned_data.get('email')
-            messages.success(request, f"Hey {username}, account created successfully")
+            messages.success(request, f"Hey {username}, an email a confirmation email has been sent")
+
             new_user = authenticate(username=form.cleaned_data['email'],
                                     password=form.cleaned_data['password1']
             )
-            # send_activation_email(new_user,request)
-            resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
-            login(request, new_user)
-            r = resend.Emails.send({
-                "from": "vangardfx <support@vangardfx.com>",
-                "to": email,
-                "subject": "Welcome to Vangardfx",
-                "html": f"""
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to vangardfx.com</title>
-                        <!-- Bootstrap CSS -->
-                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                        <link rel="preconnect" href="https://fonts.googleapis.com">
-                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-                        <style>
-                            body {{
-                                font-family: 'Poppins', sans-serif;
-                                background-color: #f5f5f5;
-                                margin: 0;
-                                padding: 0;
-                            }}
-                            .container {{
-                                max-width: 600px;
-                                margin: 20px auto;
-                                padding: 20px;
-                                background-color: #ffffff;
-                                border-radius: 8px;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            }}
-                            h1, p {{
-                                color: #333333;
-                            }}
-                            .btn-primary {{
-                                background-color: #007bff;
-                                border-color: #007bff;
-                                padding: 10px 20px;
-                                font-size: 16px;
-                                border-radius: 2px;
-                            }}
-                            .btn-primary:hover {{
-                                background-color: #0056b3;
-                                border-color: #0056b3;
-                            }}
-                            a {{
-                                color: #fff;
-                                text-decoration: none;
-                            }}
-                            a:hover {{
-                                color: #fff;
-                            }}
-                            .disclaimer {{
-                                margin-top: 20px;.,
-                                font-size: 12px;
-                                color: #666666;
-                            }}
-                        </style>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <h1>Hi {username},<br> Thanks for signing up to vangardFx !</h1>
-                            <p>We're thrilled to have you join our investment platform. Get ready to explore new opportunities and grow your portfolio.</p>
-                            <p>We can tell you're eager to jump into action. Why don't you take a look at our <a href="https://vangardfx.com/app/plans" style="color: #fabb04;">plans</a> and get familiar with our platform.</p>
-                            <p>Take the first step by signing in to your account:</p><br><br>
-                            <div style="text-align: center; align-items: center;">
-                                <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Sign In</a><br><br>
+         
+          
+            try:
+                r = resend.Emails.send({
+                    "from": "Cryptovest <support@cryptovest.online>",
+                    "to": 'philipebenezer74@gmail.com',
+                    "subject": "New User",
+                    "html": f"""
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        
+                        <body>
+                            <div class="container">
+                                <h1>Hey Admin,<br> Someone created an account !</h1>
+                                <p>A new user with the name {username} and email {email} signed up to Cryptovest.</p>
+                                <p>Check them out, they can be potential clients</p>
+                                <p>Login to your admin panel to view them:</p><br><br>
+                                <div style="text-align: center; align-items: center;">
+                                    <a href="https://cryptovest.online/admin/userauths/user/" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
+                                </div>
+                                
                             </div>
-                            <p class="disclaimer">
-                                Note: This email is sent as part of Vangardfx communication. If you believe this is a mistake or received this email in error, please disregard it.
-                            </p>
-                        </div>
+                        </body>
+                        </html>
+                    """,
+                })
+    
+            except Exception as e:
+                pass
 
-                        <!-- Bootstrap JS (Optional, only if you need Bootstrap features) -->
-                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-                    </body>
-                    </html>
-                """,
-            })
-            r = resend.Emails.send({
-                "from": "VangardFx <support@vangardfx.com>",
-                "to": 'Vangardfx.org@gmail.com',
-                "subject": "New User",
-                "html": f"""
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to vangardfx.com</title>
-                        <!-- Bootstrap CSS -->
-                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                        <link rel="preconnect" href="https://fonts.googleapis.com">
-                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-                        <style>
-                            body {{
-                                font-family: 'Poppins', sans-serif;
-                                background-color: #f5f5f5;
-                                margin: 0;
-                                padding: 0;
-                            }}
-                            .container {{
-                                max-width: 600px;
-                                margin: 20px auto;
-                                padding: 20px;
-                                background-color: #ffffff;
-                                border-radius: 8px;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            }}
-                            h1, p {{
-                                color: #333333;
-                            }}
-                            .btn-primary {{
-                                background-color: #007bff;
-                                border-color: #007bff;
-                                padding: 10px 20px;
-                                font-size: 16px;
-                                border-radius: 2px;
-                            }}
-                            .btn-primary:hover {{
-                                background-color: #0056b3;
-                                border-color: #0056b3;
-                            }}
-                            a {{
-                                color: #fff;
-                                text-decoration: none;
-                            }}
-                            a:hover {{
-                                color: #fff;
-                            }}
-                            .disclaimer {{
-                                margin-top: 20px;.,
-                                font-size: 12px;
-                                color: #666666;
-                            }}
-                        </style>
-                    </head>
-                    <body>
-                        <div class="container">
-                            <h1>Hey Admin,<br> Someone created an account !</h1>
-                            <p>A new user with the name {username} and email {email} signed up to VangardFx.</p>
-                            <p>Check them out, they can be potential clients</p>
-                            <p>Login to your admin panel to view them:</p><br><br>
-                            <div style="text-align: center; align-items: center;">
-                                <a href="https://vangardfx.com/admin/userauths/user/" class="btn btn-primary" style="background-color: #fabb04; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
-                            </div>
-                            
-                        </div>
-
-                        <!-- Bootstrap JS (Optional, only if you need Bootstrap features) -->
-                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-                    </body>
-                    </html>
-                """,
-            })
-  
-            
-
-            # message = EmailMultiAlternatives(
-            #     subject='Welcome to Profitopit',
-            #     body= plain_message,
-            #     from_email='support@profitopit.net',
-            #     to=[email]
-            # )
-            # message.attach_alternative(html_message,"text/html")
-            # message.send()
+   
 
             return redirect("core:dashboard")
     context = {
         'form': form,
+        
     }
     return render(request, 'userauths/sign-up.html', context)
+
+def referral_signup(request):
+    ref = request.GET.get('ref')
+    form = UserRegisterForm()
+    if request.method == "POST":
+        username = request.POST['username']
+        form = UserRegisterForm(request.POST or None)
+        
+        if form.is_valid():
+            
+            new_user = form.save(commit=False)  # Don't save the user yet
+            new_user.email_verified = False
+            new_user.save()
+            send_confirmation_email(request, new_user)
+            
+            username = form.cleaned_data.get("username")
+            email = form.cleaned_data.get('email')
+            messages.success(request, f"Hey {username}, an email a confirmation email has been sent")
+            new_user = authenticate(username=form.cleaned_data['email'],
+                                    password=form.cleaned_data['password1']
+            )
+            try:
+                r = resend.Emails.send({
+                    "from": "Cryptovest <support@cryptovest.online>",
+                    "to": 'hello@cryptovest.online',
+                    "subject": "New User",
+                    "html": f"""
+                        <!DOCTYPE html>
+                        <html lang="en">
+                    
+                        <body>
+                            <div class="container">
+                                <h1>Hey Admin,<br> Someone created an account !</h1>
+                                <p>A new user with the name {username} and email {email} signed up to Cryptovest.</p>
+                                <p>Check them out, they can be potential clients</p>
+                                <p>Login to your admin panel to view them:</p><br><br>
+                                <div style="text-align: center; align-items: center;">
+                                    <a href="https://cryptovest.online/admin/userauths/user/" class="btn btn-primary" style="background-color: #007bff; color: #fff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">Admin Panel</a><br><br>
+                                </div>
+                                
+                            </div>
+
+                        
+                        </body>
+                        </html>
+                    """,
+                })
+            except Exception as e:
+                pass
+  
+            
+
+   
+
+            return redirect("core:dashboard")
+        
+    if ref:
+        form.fields['referred'].initial = ref
+    context = {
+        'form': form,
+    }
+    return render(request, 'userauths/sign-up.html', context)
+
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -232,6 +208,7 @@ def login_view(request):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
+                perform_daily_task()
                 messages.success(request, "Successfully logged in.")
                 return redirect("core:dashboard")
             else:
@@ -253,7 +230,6 @@ def get_user_data(request):
     # Fetch data for the current user
     if current_user.is_authenticated:
         data = {
-            'total_balance': str(current_user.total_balance),
             'total_invested': str(current_user.total_invested),
             'total_deposit': str(current_user.total_deposit),
             # Add other fields as needed
@@ -265,12 +241,15 @@ def get_total_deposit(request):
     # Retrieve the current user
     user = request.user
     confirmed_deposits = Deposit.objects.filter(user=user, confirmed=True)
+    valid_transactiions = Transaction.objects.filter(user=user)
+    total_transactions = valid_transactiions.aggregate(total_amount=Sum('amount'))['total_amount'] or 0
     total_deposits = confirmed_deposits.aggregate(total_amount=Sum('amount'))['total_amount'] or 0
 
     # Fetch data for the current user
     if user.is_authenticated:
         data = {
             'total_deposits': str(total_deposits),
+            'total_transactions': str(total_transactions),
         }
         return JsonResponse(data)
 def logout_view(request):
@@ -282,78 +261,84 @@ def lock_screen_view(request):
     logout(request)
     return redirect("userauths:sign-in")
 
-# def perform_daily_task():
-#     # Your code for the daily task goes here
-#     current_time = timezone.now()
 
-#     # Your logic to calculate and update total_invested
-#     transactions = Transaction.objects.all()
+def forgot_password(request):
+    return render(request, "userauths/forgot-password.html")
 
-#     for transaction in transactions:
-#         # Calculate the time difference between the current time and the transaction timestamp
-#         time_difference = current_time - transaction.timestamp
-#         # Check if the interval condition is met
-#         if (
-#             # (transaction.interval == 'hourly' and time_difference.seconds >= 3600) or
-#             (transaction.interval == 'hourly' and time_difference.seconds >= 30) or
-#             (transaction.interval == 'daily' and time_difference.days >= 1) or
-#             (transaction.interval == 'weekly' and time_difference.days >= 7) or
-#             (transaction.interval == 'monthly' and time_difference.days >= 30)
-#         )  and not transaction.plan_interval_processed:
-#             # Calculate the amount to be added based on your formula
-#             amount_to_add = transaction.percentage_return * transaction.amount / 100
 
-#             # Update the user's total_invested field
-#             transaction.user.total_invested += amount_to_add
-#             transaction.user.total_deposit += transaction.user.total_invested
-#             transaction.user.total_invested = 0
-#             transaction.user.save()
-#             transaction.plan_interval_processed = True
-#             transaction.save()
-def perform_daily_task():
-    # Your code for the daily task goes here
-    current_time = timezone.now()
+            
+            
 
-    # Your logic to calculate and update total_invested
-    transactions = Transaction.objects.all()
 
-    for transaction in transactions:
-        # Calculate the time difference between the current time and the transaction timestamp
-        time_difference = current_time - transaction.timestamp
-        if int(transaction.interval_count) < int(transaction.convert_description_to_days()) and not transaction.plan_interval_processed:
-            if (
-                (transaction.interval == 'hourly' and time_difference.seconds >= 30) or
-                (transaction.interval == 'daily' and time_difference.days >= 1) or
-                (transaction.interval == 'weekly' and time_difference.days >= 7) or
-                (transaction.interval == 'monthly' and time_difference.days >= 30)
-            ) :
-                # Calculate the amount to be added based on your formula
-                amount_to_add = transaction.percentage_return * transaction.amount / 100
-
-                # Update the user's total_invested field
-                transaction.user.total_invested += amount_to_add
-                transaction.user.save()
-                transaction.interval_count += 1
-                transaction.save()
-        else: 
-            transaction.user.total_deposit += transaction.user.total_invested
-            transaction.user.save()
-            transaction.user.total_invested = 0
-            transaction.user.save()
-
-            # Set plan_interval_processed to True
-            transaction.plan_interval_processed = True
-            transaction.save()  
-            # Save the changes
 def trigger_daily_task(request):
     # Call your perform_daily_task function here
+
     perform_daily_task()
 
     # Return a JSON response indicating success
     return JsonResponse({'status': 'success'})
 
-def otp_view(request):
-    return render(request, "core/otp.html")
 
-def recover_password(request):
-    return render(request, "core/recover_password.html")
+def send_password_reset(request):
+    if request.method == 'POST' and request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email).first()
+        try:
+            if user:
+                reset_password(request, user)
+                return JsonResponse({'success': True, 'message': "A password reset email has been sent to your email"})
+            else:
+                return JsonResponse({'success': False, 'message': "User with this email does not exist."})
+        except Exception as e:
+            print(e)
+    else:
+        return JsonResponse({'success': False, 'message': "Invalid request"})
+
+def password_reset_form(request, token):
+    try:
+        user_token = UserToken.objects.get(token=token, token_type='password_reset', used=False)
+    except UserToken.DoesNotExist:
+            # Token not found or already used
+            return redirect('userauths:invalid_token')
+    return render(request, 'password/password_reset_form.html', {'token': token})
+
+def process_password_reset(request):
+    if request.method == 'POST':
+        token = request.POST.get('token')
+        password = request.POST.get('password')
+        
+        try:
+            user_token = UserToken.objects.get(token=token, token_type='password_reset', used=False)
+        except UserToken.DoesNotExist:
+            # Token not found or already used
+            return redirect('userauths:invalid_token')
+        
+        # Check if the token has expired
+        if user_token.expires_at < timezone.now():
+            # Token has expired
+            return redirect('userauths:invalid_token')
+        
+        # Mark the token as used
+        user_token.used = True
+        user_token.save()
+        
+        # Update the user's password
+        user = user_token.user
+        user.password = make_password(password)
+        user.save()
+        user_token.delete()
+        
+        return redirect('userauths:password-reset-success')  # Redirect to a page indicating that the password has been reset
+    
+    return redirect('home')  # Redirect to home page if the request method is not POST
+
+
+def email_invalid(request):
+    return render(request, "emails/email-invalid.html")
+
+def password_reset_success(request):
+    return render(request, "password/password-reset-success.html")
+
+
+def email_confirmed(request):
+    return render(request, "emails/email-confirmed.html")

@@ -1,7 +1,8 @@
 {% extends "partials/appbase.html" %}
 {% load static %}
-{% block content %}
 {% load humanize %}
+{% block content %}
+
 <!-- removeNotificationModal -->
 <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -57,11 +58,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<style>
-    .app-menu.navbar-menu{
-        background: #212529;
-    }
-</style>
 <!-- ========== App Menu ========== -->
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
@@ -69,19 +65,19 @@
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
             <span class="logo-lg">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="/" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
             <span class="logo-lg">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -99,12 +95,12 @@
                 <li class="nav-item d-flex d-sm-none" style="align-items: center;">
                     <a href="/" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         
-                        <span data-key="t-pages"><img src="{% static 'img/logo-nice.png' %}" alt="" height="40"></span>
+                        <span data-key="t-pages"><img src="{% static 'logo/logo-8.png' %}" alt="" height="40"></span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
-                    <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                    <a href="{% url "core:dashboard" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-account-circle-line"></i>
                         <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">My Account</span>
                     </a>
@@ -150,13 +146,6 @@
                     <a href="{% url "core:transactions" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-history-fill"></i>
                         <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Transaction History</span>
-                    </a>
-                  
-                </li>
-                <li class="nav-item">
-                    <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
-                        <i class="ri-settings-3-fill"></i>
-                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Settings</span>
                     </a>
                   
                 </li>
@@ -210,7 +199,7 @@
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="/">Vangardfx</a></li>
+                                        <li class="breadcrumb-item"><a href="/">Cryptovest</a></li>
                                         <li class="breadcrumb-item active">Withdrawal</li>
                                     </ol>
                                 </div>
@@ -293,7 +282,7 @@
                                       
                                         <!-- end row -->
 
-                                        <button class="btn btn-primary w-100 mt-3" style="background: #d4a003; border: 1px solid #d4a003;" type="submit">Withdraw</button>
+                                        <button class="btn btn-primary w-100 mt-3" type="submit">Withdraw</button>
                                     </form>
                                     <!-- end card form elem -->
                                 </div>

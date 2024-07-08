@@ -1,7 +1,9 @@
 {% extends "partials/appbase.html" %}
 {% load static %}
-{% block content %}
 {% load humanize %}
+{% block content %}
+
+
 <!-- removeNotificationModal -->
 <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -39,7 +41,7 @@
             </div>
             <div class="modal-body">
                 <div class="mt-2 text-center">
-                    <lord-icon src="https://cdn.lordicon.com/wtnrotmp.json" trigger="loop"
+                    <lord-icon src="https://cdn.lordicon.com/wtnrotmp.json" trigger="hover"
                         colors="primary:#f7b84b,secondary:#de000b" style="width:100px;height:100px"></lord-icon>
                     </lord-icon>
                     <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
@@ -58,29 +60,24 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- ========== App Menu ========== -->
-<style>
-    .app-menu.navbar-menu{
-        background: #212529;
-    }
-</style>
 <div class="app-menu navbar-menu">
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
             <span class="logo-lg">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="/" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
             <span class="logo-lg">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -98,12 +95,12 @@
                 <li class="nav-item d-flex d-sm-none" style="align-items: center;">
                     <a href="/" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         
-                        <span data-key="t-pages"><img src="{% static 'img/logo-nice.png' %}" alt="" height="40"></span>
+                        <span data-key="t-pages"><img src="{% static 'logo/logo-8.png' %}" alt="" height="40"></span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
-                    <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                    <a href="{% url "core:dashboard" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-account-circle-line"></i>
                         <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">My Account</span>
                     </a>
@@ -152,13 +149,7 @@
                     </a>
                   
                 </li>
-                <li class="nav-item">
-                    <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
-                        <i class="ri-settings-3-fill"></i>
-                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Settings</span>
-                    </a>
-                  
-                </li>
+
                 <li class="nav-item">
                     <a href="{% url "core:referrals" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-login-circle-fill"></i>
@@ -206,7 +197,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Vangardfx</h4>
+                        <h4 class="mb-sm-0">Cryptovest</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -304,7 +295,7 @@
                                                 <p class="text-muted mb-0" >You haven't made any deposit.</p><br>
                                                 <a href="{% url "core:deposit" %}" ><button
                                                     type="submit"
-                                                    class="btn btn-primary">Deposit</button></a>
+                                                    class="btn btn-primary" style="color: #fff; background: #335ef7; border: 2px solid #335ef7;">Deposit</button></a>
                                             </div>
                                         </div>
                                         {% endif %}

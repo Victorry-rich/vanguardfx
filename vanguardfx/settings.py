@@ -57,7 +57,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-CORS_ALLOWED_ORIGINS = ['https://www.vangardfx.com',
+CORS_ALLOWED_ORIGINS = ['https://www.CryptoVest.online',
                         ]
 
 PIPELINE = {
@@ -100,10 +100,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'OIdyAkI8IKLWtr23',
-        'HOST': 'db.lshuwavlvcotrpkmqilg.supabase.co',
-        'PORT': '5432',
+        'USER': 'postgres.dmqjkujjzdmdboplvgcy',
+        'PASSWORD': 'DIhIFBnqWTWgf0Hw',
+        'HOST': 'aws-0-eu-central-1.pooler.supabase.com',
+        'PORT': '6543',
     }
 }
 
@@ -170,7 +170,4 @@ SESSION_COOKIE_AGE = 60 * 60 * 6
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-CRONJOBS = [
-    ('0 0 * * *', 'core.cron.update_total_invested_job'),
-]
-CRONTAB_TZ = 'UTC'
+SENSITIVE_VARIABLE ='re_Sbx8SoE8_FaJhwuVegZ7uD9kBf8dB9iLb'

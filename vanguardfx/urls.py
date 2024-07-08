@@ -1,5 +1,5 @@
 """
-URL configuration for metafinance project.
+URL configuration for vanguardfx project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -25,14 +25,15 @@ urlpatterns = [
 
     url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     path("admin/", admin.site.urls),
-    path("", include('core.urls')),
-    path("", include('userauths.urls')),
-
-
+    path("", include("core.urls")),
+    path("", include("userauths.urls"))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+
+
 handler404 = 'core.views.custom_error_page'
+handler403 = 'core.views.custom_error_page2'
 handler500 = 'core.views.custom_error_page1'

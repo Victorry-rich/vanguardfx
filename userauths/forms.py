@@ -7,6 +7,11 @@ from .countries import sorted_countries
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from decimal import Decimal
+import resend
+from django.conf import settings
+
+
+resend.api_key = getattr(settings, 'SENSITIVE_VARIABLE', None)
 CURRENCY = (
     ("Bitcoin (BTC)", "Bitcoin (BTC)"),
     ("Ethereum (ETH)", "Ethereum (ETH)"),
@@ -17,20 +22,43 @@ CURRENCY = (
 def validate_referral_code(value):
     """
     Custom validator to check if the referral code exists in the User model.
-    If it exists, create the account and add $10 to total_balance.
+    If it exists, create the account.
     If it doesn't exist, raise a ValidationError.
     """
     try:
         user = User.objects.get(referral_code=value)
         user.save()
-        # Referral code exists, create account and add $10 to total_balance
-        user.total_deposit += Decimal('10.00')
-        user.save()
+        email = user.email
+        username = user.username
+        r = resend.Emails.send({
+                "from": "Cryptovest <support@cryptovest.online>",
+                "to": email,
+                "subject": f"You referred a new user",
+                "html": f"""
+                
+                
+                    <body>
+                        <div class="container">
+                            <h1>Hey {username},<br> you have referred a new user !</h1>
+                            <p>Referral code: {value}.</p><br>
+                            
+                            <div style="text-align: center; align-items: center;">
+                                <a href="https://cryptovest.online/app/referrals" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View Referrals</a><br><br>
+                            </div>
+                            
+                        </div>
+
+                    </body>
+                    </html>
+                """,
+            })
+  
     except User.DoesNotExist:
         raise ValidationError('This referral code does not exist.')
 
 class UserRegisterForm(UserCreationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username","class": "form-control"}))
+    contact = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Phone Number","class": "form-control"}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={"placeholder": "Email", "class": "form-control"}))
     address = forms.ChoiceField(choices=sorted_countries, widget=forms.Select(attrs={"placeholder": "Country", "class": "form-control"}))
     btc_address = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "BTC address", "class": "form-control","id":"password-field"}), required=False)
@@ -38,11 +66,11 @@ class UserRegisterForm(UserCreationForm):
     usdt_address = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "USDT address", "class": "form-control","id":"password-field"}), required=False)
     referred = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "*Optional","class": "form-control"}),validators=[validate_referral_code], required=False)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Password", "class": "form-control","id":"password-field"}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Confirm Password", "class": "form-control","id":"password-field"}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Confirm Password", "class": "form-control","id":"password-field2"}))
     
     class Meta:
         model = User
-        fields = ['username','email','address','btc_address','eth_address','usdt_address','referred']
+        fields = ['username','contact','email','address','btc_address','eth_address','usdt_address','referred']
 
 class TransactionForm(forms.ModelForm):
     user = forms.EmailField(initial='Default Value',widget=forms.TextInput(attrs={"placeholder": "", "class": "form-control",'readonly': 'readonly'}))

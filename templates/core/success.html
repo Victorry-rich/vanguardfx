@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load humanize %}
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
@@ -7,10 +7,10 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Payment - Vangardfx</title>
+    <title>Payment - Cryptovest</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Vangardfx - Invest Cryptocurrencies" name="description" />
-    <meta content="Vangardfx" name="author" />
+    <meta content="Cryptovest - Invest Cryptocurrencies" name="description" />
+    <meta content="Cryptovest" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="asset/images/favicon.ico">
     <link
@@ -73,22 +73,22 @@
 
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
-                                    <h5 class="text-primary">Transaction Successful</h5>
-                                    <p class="text-muted">Payment Success</p>
+                                    <h5 class="text-primary">Investment Pending</h5>
+                                    <p class="text-muted">Your investment is being processed</p>
                                     <h1 class="text-muted">-${{amount}}</h1>
                                 </div>
                                 <style>
                                 .rounded-icon {
-                                    background-color: green;
-                                    border: 2px solid green;
+                                    background-color: #ffc107;
+                                    border: 2px solid #ffc107;
                                     color: #fff;
                                     border-radius: 50%; /* Make it a circle */
                                     padding: 1px; /* Adjust padding as needed */
                                     margin-right: 3px;
                                   }
                                 </style>
-                                <div class=" text-center mb-2 mx-2" style="color: green">
-                                    <i class="ri-check-line rounded-icon"></i><span>Successful</span>
+                                <div class=" text-center mb-2 mx-2" style="color: #ffc107">
+                                    <i class="ri-check-line rounded-icon"></i><span>Pending Investment</span>
                                 </div>
                                 <div class="p-2">
                                     <form>
@@ -116,7 +116,7 @@
                                         
                                     </form><!-- end form -->
                                     <div class="text-center mt-4">
-                                        <a href="{% url "core:dashboard" %}"><button style="background: #d4a003; border: 1px solid #d4a003;" class="btn btn-primary w-100">Back to Dashboard</button></a>
+                                        <a href="{% url "core:dashboard" %}"><button class="btn btn-primary w-100">Back to Dashboard</button></a>
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                     <div class="col-lg-12">
                         <div class="text-center">
                             <p class="mb-0 text-muted">&copy;
-                                <script>document.write(new Date().getFullYear())</script> Vangardfx.
+                                <script>document.write(new Date().getFullYear())</script> Cryptovest.
                             </p>
                         </div>
                     </div>

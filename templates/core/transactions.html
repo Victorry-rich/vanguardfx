@@ -1,7 +1,9 @@
 {% extends "partials/appbase.html" %}
 {% load static %}
-{% block content %}
 {% load humanize %}
+{% load tz %}
+{% block content %}
+
 <!-- removeNotificationModal -->
 <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -58,30 +60,25 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- ========== App Menu ========== -->
-<style>
-    .app-menu.navbar-menu{
-        background: #212529;
-    }
-</style>
 <div class="app-menu navbar-menu">
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
             <span class="logo-lg">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="/" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
             <span class="logo-lg">
-                <img src="{% static 'images/vangardlogo.png' %}" alt="" height="40">
+                <img src="{% static 'logo/logo-8.png' %}" alt="" height="40">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -99,12 +96,12 @@
                 <li class="nav-item d-flex d-sm-none" style="align-items: center;">
                     <a href="/" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         
-                        <span data-key="t-pages"><img src="{% static 'img/logo-nice.png' %}" alt="" height="40"></span>
+                        <span data-key="t-pages"><img src="{% static 'logo/logo-8.png' %}" alt="" height="40"></span>
                     </a>
                   
                 </li>
                 <li class="nav-item">
-                    <a href="{% url "core:profile" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
+                    <a href="{% url "core:dashboard" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-account-circle-line"></i>
                         <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">My Account</span>
                     </a>
@@ -150,13 +147,6 @@
                     <a href="{% url "core:transactions" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
                         <i class="ri-history-fill"></i>
                         <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Transaction History</span>
-                    </a>
-                  
-                </li>
-                <li class="nav-item">
-                    <a href="{% url "core:profile-settings" %}" class="nav-link menu-link"  aria-controls="sidebarPages" >
-                        <i class="ri-settings-3-fill"></i>
-                        <span data-key="t-pages" style="font-family: 'Poppins', sans-serif  !important;">Settings</span>
                     </a>
                   
                 </li>
@@ -207,7 +197,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Vangardfx</h4>
+                        <h4 class="mb-sm-0">Cryptovest</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
@@ -240,6 +230,27 @@
                                     </div>
                                     <!--end row-->
                                 </div>
+                                <script>
+                                    var userTimezone;
+                                    try {
+                                        userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                                    } catch (e) {
+                                        console.error("Error detecting timezone:", e);
+                                        userTimezone = 'UTC';  // Replace with your default timezone
+                                    }
+                                    
+                                    // Function to convert server-side timestamp to user's local time
+                                    function convertToUserLocalTime(serverTimestamp) {
+                                        var serverTime = new Date(serverTimestamp);
+                                        return serverTime.toLocaleString('en-US', { timeZone: userTimezone });
+                                    }
+                                </script>
+                                <script>
+                                    var serverTimestamp = "{{ request.user.last_login }}";
+                                    var userLocalTime = convertToUserLocalTime(serverTimestamp);
+                                    console.log("User's local time:", userLocalTime);
+                                    // You can use userLocalTime in your template as needed
+                                </script>
                                 <!--end card-header-->
                                 <div class="card-body">
                                     <div class="table-responsive table-card">
@@ -250,7 +261,7 @@
                                                     <th  data-sort="name" scope="col" style="width: 60px;"></th>
                                                     <th  data-sort="date" scope="col">Timestamp</th>
                                                
-                                  
+                                                    <th  data-sort="expire_date" scope="col">Plan Expiry</th>
                                                     <th  data-sort="details" scope="col">Details</th>
                                                     <th  data-sort="transaction_id" scope="col">Transaction ID</th>
                                                 
@@ -270,8 +281,8 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="date">{{t.timestamp|date:"d M, Y"}}</td>
-                                                 
+                                                    <td class="date">{{t.timestamp|date:"d M, Y H:i"}}</td>
+                                                    <td class="expire_date">{{t.expiry_date|date:"d M, Y H:i"}}</td>
                                              
                                                     <td class="details">{{t.title}}</td>
                                                     <td class="transaction_id">{{t.transaction_id}}</td>

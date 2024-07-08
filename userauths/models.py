@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from shortuuid.django_fields import ShortUUIDField
 from decimal import Decimal
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from datetime import timedelta
 from django.utils import timezone
 import resend
-import time
 import re
+from django.db import transaction as ts
+from django.conf import settings
+from django.utils.text import slugify
+resend.api_key = getattr(settings, 'SENSITIVE_VARIABLE', None)
 # Create your models here.
 STATUS = (
     ("daily", "daily"),
@@ -20,24 +21,27 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
     email = models.EmailField(unique=True, null=False)
     username = models.CharField(max_length=100)
-    total_balance = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
     total_invested = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
     total_deposit = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
-    referral_code = ShortUUIDField(unique=True, length=10, max_length=20, prefix="vangard", alphabet="abcdefgh12345")
+    referral_code = ShortUUIDField(unique=True, length=10, max_length=50, prefix="", alphabet="abcdefgh12345")
     referred = models.CharField(max_length=20, blank=True)
     contact = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=100, null=True, blank=True)
+    ref_bonus = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
     btc_address = models.CharField(max_length=100, blank=True)
     eth_address = models.CharField(max_length=100, blank=True)
     usdt_address = models.CharField(max_length=100, blank=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ['username']
     def save(self, *args, **kwargs):
-        self.total_balance = Decimal(self.total_deposit) + Decimal(self.total_invested)
+        person_name = self.username
+        slug = slugify(person_name)
+        self.referral_code = f"{slug}"
         super().save(*args, **kwargs)
     def __str__(self):
         return self.username
-
+    class Meta:
+        verbose_name = "Cryptovest User"
         
 
 
@@ -47,15 +51,68 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=100, decimal_places=2, default="0.00")
     title = models.CharField(max_length=50, blank=True)
     interval = models.CharField(choices=STATUS, max_length=16, default="daily")
-    percentage_return = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
+    percentage_return = models.DecimalField(max_digits=100, decimal_places=2, default="0.00")
     least_amount = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
-    max_amount = models.DecimalField(max_digits=1000, decimal_places=2, default="0.00")
-    transaction_id = ShortUUIDField(unique=True, length=10, max_length=20, prefix="TRX", alphabet="abcdefgh12345")
+    description = models.TextField(null=True, blank=True)
+    max_amount = models.DecimalField(max_digits=100, decimal_places=2, default="0.00")
+    transaction_id = ShortUUIDField(unique=True, length=20, max_length=30, prefix="TRX", alphabet="abcdefgh12345")
     timestamp = models.DateTimeField(auto_now_add=True)
     plan_interval_processed = models.BooleanField(default=False)
     interval_count = models.IntegerField(default=0)
+    days_count = models.IntegerField(default=1)
+    expiry_date = models.DateTimeField(default=timezone.now() + timedelta(days=7))
+    confirmed = models.BooleanField(default=False)
+    
+    def confirm_transactions(self):
+        if not self.confirmed:
+            
+            self.user.refresh_from_db()
+            self.user.total_deposit -= Decimal(self.amount)
+            self.user.save(update_fields=['total_deposit'])
+
+            
+
+            self.user.total_invested += Decimal(self.amount)
+            self.user.save(update_fields=['total_invested'])
+            
+            # Update transaction confirmation status
+            self.confirmed = True
+            self.save()
+            r = resend.Emails.send({
+                    "from": "Cryptovest <support@Cryptovest..com>",
+                    "to": self.user.email,
+                    "subject": "Successful Investment",
+                    "html": f"""
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <body>
+                            <div class="container">
+                                <h1>Hi {self.user},</h1>
+                                <h2>You successfully invested ${self.amount} in the {self.title}</h2>
+                                <p>Dear {self.user}, your decision to invest with us speaks volumes, and we're excited to embark on this journey together. Our team is committed to ensuring your experience is nothing short of exceptional.</p>
+                                <p>If you have any questions or if there's anything we can assist you with, please feel free to reach out to our customer support team at <a href="mailto:support@cryptovest.online">support@cryptovest.online</a>. We are here to help and provide any information you may need</p>
+                                <p>Once again, thank you for choosing Cryptovest. We look forward to a prosperous and successful investment journey together.</p><br><br>
+                                <div style="text-align: center; align-items: center;">
+                                    <a href="https://cryptovest.online/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; color: #fff; border-radius: 2px;" target="_blank">Dashboard</a><br><br>
+                                </div>
+                                
+                            </div>
+                        </body>
+                        </html>
+                    """,
+                })
+            try:
+                user = User.objects.get(referral_code=self.user.referred)
+                investment_referral_payment = float(self.user.total_invested) * 0.1
+                user.total_deposit += Decimal(investment_referral_payment)
+                user.ref_bonus += Decimal(investment_referral_payment)
+                user.save()
+            except User.DoesNotExist:
+                pass  # Handle the case where the referral user does not exist
+            except Exception as e:
+                print(e)
     def convert_description_to_days(self):
-        match = re.match(r'(\d+) weeks? and (\d+) days?', self.description)
+        match = re.match(r'(\d+) wks? and (\d+) days?', self.description)
 
         if match:
             weeks, days = map(int, match.groups())
@@ -69,23 +126,17 @@ class Transaction(models.Model):
             else:
                 return 7
 
+    def save(self, *args, **kwargs):
+        if self.expiry_date:
+            days_to_add = self.convert_description_to_days()
+            self.expiry_date = timezone.now() + timezone.timedelta(days=days_to_add)
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name_plural = "Users that invested"
 
 
 
-
-# Run the task every day
-# while True:
-#     # Get the current time
-#     current_time = time.localtime()
-
-#     # Check if it's a new day (midnight)
-#     if current_time.tm_hour == 0 and current_time.tm_min == 0:
-#         perform_daily_task()
-
-#     # Wait for a certain period before checking again (adjust as needed)
-#     time.sleep(60)  # Check every minute
 
 
 
@@ -98,7 +149,8 @@ class Deposit(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     timestamp = models.DateTimeField(auto_now_add=True)
     confirmed = models.BooleanField(default=False)
-
+    class Meta:
+        verbose_name = "Users Deposit"
     def confirm_deposit(self):
         if not self.confirmed:
             # Update user's balance first
@@ -108,84 +160,27 @@ class Deposit(models.Model):
             # Update deposit confirmation status
             self.confirmed = True
             self.save()
-            resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
             r = resend.Emails.send({
-                "from": "VangardFx <support@vangardfx.com>",
+                "from": "Cryptovest <support@cryptovest.online>",
                 "to": self.user.email,
                 "subject": f"Deposit has been confirmed",
                 "html": f"""
                     <!DOCTYPE html>
                     <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to Vangardfx</title>
-                        <!-- Bootstrap CSS -->
-                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                        <link rel="preconnect" href="https://fonts.googleapis.com">
-                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-                        <style>
-                            body {{
-                                font-family: 'Poppins', sans-serif;
-                                background-color: #f5f5f5;
-                                margin: 0;
-                                padding: 0;
-                            }}
-                            .container {{
-                                max-width: 600px;
-                                margin: 20px auto;
-                                padding: 20px;
-                                background-color: #ffffff;
-                                border-radius: 8px;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            }}
-                            h1,h2, p {{
-                                color: #333333;
-                            }}
-                            .btn-primary {{
-                                background-color: #007bff;
-                                border-color: #007bff;
-                                padding: 10px 20px;
-                                font-size: 16px;
-                                border-radius: 2px;
-                            }}
-                            .btn-primary:hover {{
-                                background-color: #0056b3;
-                                border-color: #0056b3;
-                            }}
-                            a {{
-                                color: #fff;
-                                text-decoration: none;
-                            }}
-                            a:hover {{
-                                color: #fff;
-                            }}
-                            .disclaimer {{
-                                margin-top: 20px;
-                                font-size: 12px;
-                                color: #666666;
-                            }}
-                        </style>
-                    </head>
+                    
                     <body>
                         <div class="container">
                             <h1>Hey {self.user.username},<br> </h1>
                             <h2>Your deposit of ${self.amount} has been confirmed.</h2>
                             <p>The deposit that you made at {self.timestamp} UTC has been confirmed, you can go over to your dashboard to view or invest in any of our plans.</p><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
+                                <a href="https://cryptovest.online/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
                             </div>
                             <p style="margin-top: 20px; font-size: 12px; color: #666666;">
-                                Note: This email is sent as part of Vangardfx communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                Note: This email is sent as part of Cryptovest communication. If you believe this is a mistake or received this email in error, please disregard it.
                             </p>
                         </div>
 
-                        <!-- Bootstrap JS (Optional, only if you need Bootstrap features) -->
-                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
                     </body>
                     </html>
                 """,
@@ -196,93 +191,41 @@ class Deposit(models.Model):
                 referred_user_email = referred_user.email
                 referred_user_username = referred_user.username
                 # Calculate the bonus amount (10% of the deposit)
-                bonus_amount = self.amount * 0.1
+                bonus_amount = self.amount * Decimal(0.1)
 
                 # Update referred user's total_deposit and total_balance
                 referred_user.total_deposit += bonus_amount
-                referred_user.save()
+                referred_user.save(update_fields=['total_deposit'])
+                referred_user.ref_bonus += bonus_amount
+                referred_user.save(update_fields=['ref_bonus'])
+                amount_added = round(bonus_amount, 2)
                 r = resend.Emails.send({
-                    "from": "Vangardfx <support@vangardfx.com>",
+                    "from": "Cryptovest <support@cryptovest.online>",
                     "to": referred_user_email,
                     "subject": f"Your Referral Deposited",
                     "html": f"""
                         <!DOCTYPE html>
                         <html lang="en">
-                        <head>
-                            <meta charset="UTF-8">
-                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                            <title>Welcome to Vangardfx</title>
-                            <!-- Bootstrap CSS -->
-                            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                            <link rel="preconnect" href="https://fonts.googleapis.com">
-                            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                            <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-                            <style>
-                                body {{
-                                    font-family: 'Poppins', sans-serif;
-                                    background-color: #f5f5f5;
-                                    margin: 0;
-                                    padding: 0;
-                                }}
-                                .container {{
-                                    max-width: 600px;
-                                    margin: 20px auto;
-                                    padding: 20px;
-                                    background-color: #ffffff;
-                                    border-radius: 8px;
-                                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                                }}
-                                h1,h2, p {{
-                                    color: #333333;
-                                }}
-                                .btn-primary {{
-                                    background-color: #007bff;
-                                    border-color: #007bff;
-                                    padding: 10px 20px;
-                                    font-size: 16px;
-                                    border-radius: 2px;
-                                }}
-                                .btn-primary:hover {{
-                                    background-color: #0056b3;
-                                    border-color: #0056b3;
-                                }}
-                                a {{
-                                    color: #fff;
-                                    text-decoration: none;
-                                }}
-                                a:hover {{
-                                    color: #fff;
-                                }}
-                                .disclaimer {{
-                                    margin-top: 20px;
-                                    font-size: 12px;
-                                    color: #666666;
-                                }}
-                            </style>
-                        </head>
+                       
                         <body>
                             <div class="container">
                                 <h1>Hey {referred_user_username},<br> </h1>
                                 <h2>Your referral made a deposit of ${self.amount}.</h2>
-                                <p>A referral bonus of ${bonus_amount} has been credited to your balance.</p><br>
+                                <p>A referral bonus of ${amount_added} has been credited to your balance.</p><br>
                                 <div style="text-align: center; align-items: center;">
-                                    <a href="https://vangardfx.com/app/dashboard" class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
+                                    <a href="https://cryptovest.online/app/dashboard" class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View Dashboard</a><br><br>
                                 </div>
                                 <p style="margin-top: 20px; font-size: 12px; color: #666666;">
-                                    Note: This email is sent as part of VangardFx communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                    Note: This email is sent as part of Cryptovest communication. If you believe this is a mistake or received this email in error, please disregard it.
                                 </p>
                             </div>
 
-                            <!-- Bootstrap JS (Optional, only if you need Bootstrap features) -->
-                            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-                            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                 
                         </body>
                         </html>
                     """,
                 })
- 
+
  
 
 
@@ -306,84 +249,28 @@ class Withdraw(models.Model):
             # Update deposit confirmation status
             self.confirmed = True
             self.save()
-            resend.api_key = "re_cpcCyLqj_GsFaiaTPhrnHJStST1quGNch"
+
             r = resend.Emails.send({
-                "from": "VangardFx <support@vangardfx.com>",
+                "from": "Cryptovest <support@cryptovest.online>",
                 "to": self.user.email,
                 "subject": f"Withdrawal has been confirmed",
                 "html": f"""
                     <!DOCTYPE html>
                     <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Welcome to vangardfx.com</title>
-                        <!-- Bootstrap CSS -->
-                        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-                        <link rel="preconnect" href="https://fonts.googleapis.com">
-                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-                        <style>
-                            body {{
-                                font-family: 'Poppins', sans-serif;
-                                background-color: #f5f5f5;
-                                margin: 0;
-                                padding: 0;
-                            }}
-                            .container {{
-                                max-width: 600px;
-                                margin: 20px auto;
-                                padding: 20px;
-                                background-color: #ffffff;
-                                border-radius: 8px;
-                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                            }}
-                            h1,h2, p {{
-                                color: #333333;
-                            }}
-                            .btn-primary {{
-                                background-color: #007bff;
-                                border-color: #007bff;
-                                padding: 10px 20px;
-                                font-size: 16px;
-                                border-radius: 2px;
-                            }}
-                            .btn-primary:hover {{
-                                background-color: #0056b3;
-                                border-color: #0056b3;
-                            }}
-                            a {{
-                                color: #fff;
-                                text-decoration: none;
-                            }}
-                            a:hover {{
-                                color: #fff;
-                            }}
-                            .disclaimer {{
-                                margin-top: 20px;
-                                font-size: 12px;
-                                color: #666666;
-                            }}
-                        </style>
-                    </head>
+                  
                     <body>
                         <div class="container">
                             <h1>Hey {self.user.username},<br> </h1>
                             <h2>Your withdrawal of ${self.amount} has been confirmed.</h2><br>
                             <p>The withdrawal you placed at {self.timestamp} UTC has been confirmed, you will be credited to your wallet address shortly.</p><br>
                             <div style="text-align: center; align-items: center;">
-                                <a href="https://vangardfx.com/app/dashboard class="btn btn-primary" style="background-color: #fabb04; color: #fff; font-size: 16px; border-color: #fabb04; padding: 10px 20px; border-radius: 2px;" target="_blank">View dashboard</a><br><br>
+                                <a href="https://cryptovest.online/app/dashboard class="btn btn-primary" style="background-color: #007bff; font-size: 16px; border-color: #007bff; padding: 10px 20px; border-radius: 2px;" target="_blank">View dashboard</a><br><br>
                             </div>
                             <p style="margin-top: 20px; font-size: 12px; color: #666666;">
-                                Note: This email is sent as part of Vangardfx communication. If you believe this is a mistake or received this email in error, please disregard it.
+                                Note: This email is sent as part of Cryptovest communication. If you believe this is a mistake or received this email in error, please disregard it.
                             </p>
                         </div>
 
-                        <!-- Bootstrap JS (Optional, only if you need Bootstrap features) -->
-                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
                     </body>
                     </html>
                 """,
@@ -391,3 +278,31 @@ class Withdraw(models.Model):
  
     class Meta:
         verbose_name_plural = "Withdrawal Requests"
+
+
+class UserToken(models.Model):
+    TOKEN_TYPES = (
+        ('email_confirmation', 'Email Confirmation'),
+        ('password_reset', 'Password Reset'),
+        ('refresh_token', 'Refresh token'),
+        ('other', 'Other'),
+    )
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)
+    token_type = models.CharField(max_length=20, choices=TOKEN_TYPES)
+    created_at = models.DateTimeField(default=timezone.now)
+    expires_at = models.DateTimeField()
+    used = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'User Token'
+        verbose_name_plural = 'User Tokens'
+
+    def __str__(self):
+        return f'Token: {self.token} - Type: {self.token_type}'
+
+    def save(self, *args, **kwargs):
+        # Set expiration time to 30 minutes from the current time
+        self.expires_at = self.created_at + timezone.timedelta(days=1)
+        super().save(*args, **kwargs)
