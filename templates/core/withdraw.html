@@ -2,7 +2,11 @@
 {% load static %}
 {% load humanize %}
 {% block content %}
-
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
 <!-- removeNotificationModal -->
 <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -251,23 +255,55 @@
                                             <div class="col-lg-4 mb-3">
                                                 <div>
                                                     <label for="expiry-year-input" class="form-label">Cryptocurrency</label>
-                                                    <select class="form-control" id="card-holder-input" name="options">
+                                                    <select class="form-control" id="options" name="options">
                                                         <option value="Bitcoin">Bitcoin (BTC)</option>
                                                         <option value="Ethereum">Ethereum (ETH)</option>
                                                         <option value="Tether">Tether (USDT)</option>
-                                                        <option value="Tether">Bank Account (USD)</option>
+                                                        <option value="Bank">Bank Account (USD)</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <!-- end col -->
-
+                                            <div class="col-lg-4 mb-3 hidden" id="account-name-field">
+                                                <div>
+                                                    <label for="account-name-input" class="form-label">Account Name</label>
+                                                    <input type="text" class="form-control" name="account_name" id="account-name-input" placeholder="Account Name" />
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-lg-4 mb-3 hidden" id="bank-name-field">
+                                                <div>
+                                                    <label for="bank-name-input" class="form-label">Bank Name</label>
+                                                    <input type="text" class="form-control" name="bank_name" id="bank-name-input" placeholder="Bank Name" />
+                                                </div>
+                                            </div>
                                             <div class="col-lg-4 mb-3">
                                                 <div class="cvc">
-                                                    <label for="cvc-input" class="form-label">Input Wallet Address or Account</label>
-                                                    <input type="text" class="form-control" name="wallet_address" id="card-holder-input"
+                                                    <label for="cvc-input" class="form-label">Wallet Address or Account</label>
+                                                    <input type="text" class="form-control" name="wallet_address" id="wallet-address-input"
                                                placeholder="Wallet Address"  required />
                                                 </div>
                                             </div>
+                                            
+                                            
+
+                                            <script>
+                                                document.getElementById('options').addEventListener('change', function () {
+                                                    var accountNameField = document.getElementById('account-name-field');
+                                                    var bankNameField = document.getElementById('bank-name-field');
+                                                    var walletAddressField = document.getElementById('wallet-address-input');
+                                            
+                                                    if (this.value === 'Bank') {
+                                                        accountNameField.classList.remove('hidden');
+                                                        bankNameField.classList.remove('hidden');
+                                                        
+                                                    } else {
+                                                        accountNameField.classList.add('hidden');
+                                                        bankNameField.classList.add('hidden');
+                                                        walletAddressField.classList.remove('hidden');
+                                                    }
+                                                });
+                                            </script>
 
                                             {% comment %} <div class="d-flex ">
                                                 <div class="flex-grow-1">
