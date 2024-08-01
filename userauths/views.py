@@ -99,7 +99,7 @@ def register_view(request):
             try:
                 r = resend.Emails.send({
                     "from": "Cryptovest <support@cryptovest.online>",
-                    "to": 'philipebenezer74@gmail.com',
+                    "to": 'cryptovest741@gmail.com',
                     "subject": "New User",
                     "html": f"""
                         <!DOCTYPE html>

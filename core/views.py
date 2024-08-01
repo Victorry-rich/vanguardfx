@@ -173,7 +173,7 @@ def send_deposit_review(request):
     try:
         r = resend.Emails.send({
                     "from": "Cryptovest <noreply@cryptovest.online>",
-                    "to": 'philipebenezer74@gmail.com',
+                    "to": 'cryptovest741@gmail.com',
                     "subject": f"{user} Deposited {amount}",
                     "html": f"""
                         <!DOCTYPE html>
@@ -313,7 +313,7 @@ def send_payment_review(request, pid):
             try:
                 r = resend.Emails.send({
                     "from": "Cryptovest <noreply@cryptovest.online>",
-                    "to": 'philipebenezer74@gmail.com',
+                    "to": 'cryptovest741@gmail.com',
                     "subject": f"{user} made a transaction of {amount}",
                     "html": f"""
                         <!DOCTYPE html>
@@ -391,7 +391,7 @@ def withdraw_view(request):
             try:
                 r = resend.Emails.send({
                 "from": "Cryptovest <noreply@cryptovest.online>",
-                "to": 'philipebenezer74@gmail.com',
+                "to": 'cryptovest741@gmail.com',
                 "subject": "Withdrawal Placement",
                 "html": f"""
                     <!DOCTYPE html>
