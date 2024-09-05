@@ -20,6 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import re_path as url
 from django.views.static import serve
+from django.views.decorators.csrf import csrf_exempt
+
+admin.autodiscover()
+admin.site.login = csrf_exempt(admin.site.login)
 urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
 
